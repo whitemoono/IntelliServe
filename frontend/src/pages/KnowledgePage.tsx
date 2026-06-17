@@ -439,7 +439,19 @@ export default function KnowledgePage() {
         {!articlesLoading && articles.length > 0 && viewMode === 'cards' && (
           <div className="kb-card-grid">
             {articles.map((article) => (
-              <button key={article.id} className="kb-article kb-article-card" onClick={() => openArticle(article)}>
+              <article
+                key={article.id}
+                className="kb-article kb-article-card"
+                role="button"
+                tabIndex={0}
+                onClick={() => openArticle(article)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    openArticle(article)
+                  }
+                }}
+              >
                 <div className="kb-article-top">
                   <span className={`badge ${article.is_published ? 'badge-green' : 'badge-purple'}`}>
                     {article.is_published ? '已发布' : '草稿'}
@@ -482,7 +494,7 @@ export default function KnowledgePage() {
                     )}
                   </div>
                 </div>
-              </button>
+              </article>
             ))}
           </div>
         )}
