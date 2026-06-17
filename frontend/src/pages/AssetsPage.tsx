@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 type AssetStatus = 'online' | 'warning' | 'offline' | 'idle'
 type RiskLevel = 'high' | 'medium' | 'low'
@@ -790,14 +791,7 @@ export default function AssetsPage() {
         onConfirm={confirmAddAsset}
       />
 
-      {toast && (
-        <div className="asset-toast-wrap">
-          <div className={`asset-toast ${toast.tone}`}>
-            <span>{toastIcon(toast.tone)}</span>
-            <strong>{toast.message}</strong>
-          </div>
-        </div>
-      )}
+      <AssetToast toast={toast} />
     </div>
   )
 }
@@ -854,7 +848,9 @@ function AssetDrawer({
 }) {
   const tone = asset ? statusMap[asset.status].tone : 'green'
 
-  return (
+  if (typeof document === 'undefined') return null
+
+  return createPortal(
     <>
       <div className={`asset-drawer-overlay ${asset ? 'active' : ''}`} onClick={onClose} />
       <aside className={`asset-drawer ${asset ? 'active' : ''}`} aria-hidden={!asset}>
@@ -964,7 +960,8 @@ function AssetDrawer({
           </>
         )}
       </aside>
-    </>
+    </>,
+    document.body,
   )
 }
 
@@ -1135,8 +1132,9 @@ function ModalShell({
   children: React.ReactNode
 }) {
   if (!open) return null
+  if (typeof document === 'undefined') return null
 
-  return (
+  return createPortal(
     <div className="asset-modal active" role="dialog" aria-modal="true">
       <div className="asset-modal-content">
         <div className="asset-modal-header">
@@ -1145,7 +1143,22 @@ function ModalShell({
         </div>
         <div className="asset-modal-body">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
+  )
+}
+
+function AssetToast({ toast }: { toast: { message: string; tone: ToastTone } | null }) {
+  if (!toast || typeof document === 'undefined') return null
+
+  return createPortal(
+    <div className="asset-toast-wrap">
+      <div className={`asset-toast ${toast.tone}`}>
+        <span>{toastIcon(toast.tone)}</span>
+        <strong>{toast.message}</strong>
+      </div>
+    </div>,
+    document.body,
   )
 }
 
