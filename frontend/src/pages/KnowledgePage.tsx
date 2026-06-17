@@ -64,6 +64,8 @@ export default function KnowledgePage() {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
   const [detailLoading, setDetailLoading] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState<Article | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const canDeleteArticles = user?.role === 'admin'
 
   const loadArticles = useCallback(async () => {
@@ -154,34 +156,35 @@ export default function KnowledgePage() {
     }
   }
 
-  const handleDelete = (article: Article) => {
+  const requestDelete = (article: Article) => {
     if (!canDeleteArticles) {
       message.warning('只有管理员可以删除文章')
       return
     }
 
-    Modal.confirm({
-      title: '确认删除文章？',
-      content: `删除后会同时尝试清理向量库中的索引，无法从页面恢复：${article.title}`,
-      okText: '删除',
-      cancelText: '取消',
-      okButtonProps: { danger: true },
-      async onOk() {
-        try {
-          await kbApi.deleteArticle(article.id)
-          message.success('文章已删除')
-          setArticles((prev) => prev.filter((item) => item.id !== article.id))
-          setSearchResults((prev) => prev.filter((item) => item.article_id !== article.id))
-          if (selectedArticle?.id === article.id) {
-            setDetailOpen(false)
-            setSelectedArticle(null)
-          }
-          await loadArticles()
-        } catch (err: any) {
-          message.error(err.response?.data?.detail || '删除失败')
-        }
-      },
-    })
+    setDeleteTarget(article)
+  }
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return
+
+    setDeleting(true)
+    try {
+      await kbApi.deleteArticle(deleteTarget.id)
+      message.success('文章已删除')
+      setArticles((prev) => prev.filter((item) => item.id !== deleteTarget.id))
+      setSearchResults((prev) => prev.filter((item) => item.article_id !== deleteTarget.id))
+      if (selectedArticle?.id === deleteTarget.id) {
+        setDetailOpen(false)
+        setSelectedArticle(null)
+      }
+      setDeleteTarget(null)
+      await loadArticles()
+    } catch (err: any) {
+      message.error(err.response?.data?.detail || '删除失败')
+    } finally {
+      setDeleting(false)
+    }
   }
 
   const openArticle = async (articleOrId: Article | string) => {
@@ -484,9 +487,10 @@ export default function KnowledgePage() {
                       <button
                         type="button"
                         className="btn btn-danger btn-sm"
+                        onMouseDown={(event) => event.stopPropagation()}
                         onClick={(event) => {
                           event.stopPropagation()
-                          handleDelete(article)
+                          requestDelete(article)
                         }}
                       >
                         删除
@@ -538,9 +542,10 @@ export default function KnowledgePage() {
                           <button
                             type="button"
                             className="btn btn-danger btn-sm"
+                            onMouseDown={(event) => event.stopPropagation()}
                             onClick={(event) => {
                               event.stopPropagation()
-                              handleDelete(article)
+                              requestDelete(article)
                             }}
                           >
                             删除
@@ -568,7 +573,14 @@ export default function KnowledgePage() {
                 重建索引
               </button>
               {canDeleteArticles && (
-                <button key="delete" className="btn btn-danger btn-sm" onClick={() => handleDelete(selectedArticle)}>
+                <button
+                  key="delete"
+                  className="btn btn-danger btn-sm"
+                  onClick={() => {
+                    setDetailOpen(false)
+                    requestDelete(selectedArticle)
+                  }}
+                >
                   删除
                 </button>
               )}
@@ -651,6 +663,26 @@ export default function KnowledgePage() {
             <span style={{ color: 'var(--text-secondary)', fontSize: '.85rem' }}>创建后发布并向量化</span>
           </div>
         </div>
+      </Modal>
+
+      <Modal
+        title="确认删除文章？"
+        open={!!deleteTarget}
+        onOk={confirmDelete}
+        onCancel={() => {
+          if (!deleting) setDeleteTarget(null)
+        }}
+        confirmLoading={deleting}
+        okText="删除"
+        cancelText="取消"
+        okButtonProps={{ danger: true }}
+      >
+        <p style={{ marginTop: 12, color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+          删除后会同时尝试清理向量库中的索引，无法从页面恢复。
+        </p>
+        <p style={{ marginTop: 10, fontWeight: 700, color: 'var(--text-heading)' }}>
+          {deleteTarget?.title}
+        </p>
       </Modal>
     </>
   )
