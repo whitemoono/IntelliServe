@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实施路线图 — IntelliServe IT Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container-wide">
+      <a href="index.html" class="navbar-brand">
+        <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <span>IntelliServe</span>
+      </a>
+      <ul class="navbar-links">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="features.html">功能</a></li>
+        <li><a href="docs.html">文档</a></li>
+        <li><a href="/system/login">系统</a></li>
+        <li><a href="roadmap.html" class="active">路线图</a></li>
+      </ul>
+      <div class="navbar-actions">
+        <a href="docs.html" class="btn btn-primary btn-sm">部署文档</a>
+        <button class="mobile-menu-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-copy animate-in">
+        <span class="badge badge-green">路线图</span>
+        <h1>6 周完成核心上线，再用数据持续进化运维体系</h1>
+        <p>路线图按“先跑通闭环，再扩大自动化，再做智能优化”的节奏拆分，避免一次性铺太大，同时确保每阶段都有可验证的业务结果。</p>
+        <div class="page-hero-actions">
+          <a href="docs.html" class="btn btn-primary">查看部署指南</a>
+          <a href="features.html" class="btn btn-secondary">对照功能模块</a>
+        </div>
+      </div>
+      <div class="page-hero-panel animate-in">
+        <div class="signal-list">
+          <div class="signal-item">
+            <div class="signal-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0z"/></svg></div>
+            <div><h3>Phase 1</h3><p>基础环境和服务入口上线</p></div>
+            <strong>1-2 周</strong>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
+            <div><h3>Phase 2</h3><p>核心模块联动和自动修复</p></div>
+            <strong>3-6 周</strong>
+          </div>
+          <div class="signal-item">
+            <div class="signal-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+            <div><h3>Phase 3</h3><p>模型优化、高可用和持续运营</p></div>
+            <strong>持续</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header animate-in">
+        <span class="badge badge-blue section-badge">落地阶段</span>
+        <h2>实施节奏与交付物</h2>
+        <p>每个阶段都对应明确产物，方便项目验收和后续迭代。</p>
+      </div>
+      <div class="roadmap-detail-grid">
+        <div class="roadmap-stage animate-in">
+          <div class="roadmap-stage-number">01</div>
+          <div class="roadmap-stage-content">
+            <h3>基础搭建</h3>
+            <p>完成 Docker 全栈部署、基础账号权限、资产台账、监控面板和 IM 机器人入口。</p>
+            <div class="roadmap-meta">
+              <span class="badge badge-blue">Docker</span>
+              <span class="badge badge-blue">RBAC</span>
+              <span class="badge badge-blue">资产台账</span>
+            </div>
+          </div>
+        </div>
+        <div class="roadmap-stage animate-in">
+          <div class="roadmap-stage-number">02</div>
+          <div class="roadmap-stage-content">
+            <h3>核心闭环</h3>
+            <p>打通 AI 诊断、知识库检索、工单流转、自动化脚本执行和结果回填。</p>
+            <div class="roadmap-meta">
+              <span class="badge badge-purple">RAG</span>
+              <span class="badge badge-purple">工单</span>
+              <span class="badge badge-purple">脚本库</span>
+            </div>
+          </div>
+        </div>
+        <div class="roadmap-stage animate-in">
+          <div class="roadmap-stage-number">03</div>
+          <div class="roadmap-stage-content">
+            <h3>扩展场景</h3>
+            <p>上线 OCR 资产录入、网络拓扑发现、健康预测和效率报表，覆盖更完整运维流程。</p>
+            <div class="roadmap-meta">
+              <span class="badge badge-green">OCR</span>
+              <span class="badge badge-green">拓扑</span>
+              <span class="badge badge-green">报表</span>
+            </div>
+          </div>
+        </div>
+        <div class="roadmap-stage animate-in">
+          <div class="roadmap-stage-number">04</div>
+          <div class="roadmap-stage-content">
+            <h3>持续优化</h3>
+            <p>基于真实工单和执行日志迭代知识库、模型策略、自动化规则和高可用部署。</p>
+            <div class="roadmap-meta">
+              <span class="badge badge-cyan">知识迭代</span>
+              <span class="badge badge-cyan">K3s HA</span>
+              <span class="badge badge-cyan">预测模型</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark">
+    <div class="container">
+      <div class="section-header animate-in">
+        <span class="badge badge-yellow section-badge">验收视角</span>
+        <h2>用结果判断是否进入下一阶段</h2>
+      </div>
+      <div class="module-strip animate-in">
+        <div class="module-tile"><strong>用户入口</strong><span>用户能通过 IM 或 Web 提交问题并获得建议。</span></div>
+        <div class="module-tile"><strong>闭环记录</strong><span>诊断、工单、脚本和结果都有审计记录。</span></div>
+        <div class="module-tile"><strong>效率指标</strong><span>可观察自助解决率、MTTR 和重复工单趋势。</span></div>
+        <div class="module-tile"><strong>安全边界</strong><span>权限、审批、日志和本地部署策略可复核。</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section section-dark">
+    <div class="container animate-in">
+      <h2>从可验证的小闭环开始</h2>
+      <p>先把一个真实运维场景跑通，再逐步叠加自动化和智能分析，落地节奏会更稳。</p>
+      <div class="cta-actions">
+        <a href="docs.html" class="btn btn-primary">阅读部署文档</a>
+        <a href="/system/login" class="btn btn-secondary">进入系统登录</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

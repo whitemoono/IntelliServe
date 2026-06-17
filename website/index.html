@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IntelliServe IT Suite — AI 驱动的 IT 运维智能平台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar">
+    <div class="container-wide">
+      <a href="index.html" class="navbar-brand">
+        <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <span>IntelliServe</span>
+      </a>
+
+      <ul class="navbar-links">
+        <li><a href="index.html" class="active">首页</a></li>
+        <li><a href="features.html">功能</a></li>
+        <li><a href="#docs">文档</a></li>
+        <li><a href="/system/login">系统</a></li>
+        <li><a href="roadmap.html">路线图</a></li>
+      </ul>
+
+      <div class="navbar-actions">
+        <a href="/system/login" class="btn btn-primary btn-sm">开始使用</a>
+        <button class="mobile-menu-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+
+    <div class="hero-content home-hero-content">
+      <div class="hero-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+        <span>AI 驱动 · 本地部署 · 开源</span>
+      </div>
+
+      <h1>
+        让 IT 运维<br>
+        <span class="highlight">从被动救火到主动预防</span>
+      </h1>
+
+      <p class="hero-description">
+        IntelliServe IT Suite 将大语言模型与传统桌面运维深度融合，
+        打造主动预防 → 智能响应 → 自动修复 → 持续优化的闭环运维体系。
+      </p>
+
+      <div class="hero-actions">
+        <a href="features.html" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+          浏览功能
+        </a>
+        <a href="#docs" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          查看文档
+        </a>
+        <a href="/system/login" class="btn btn-ghost hero-ghost-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          体验系统
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value" data-count="50" data-suffix="%+">0%</div>
+          <div class="hero-stat-label">自助解决率提升</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value" data-count="80" data-suffix="%">0%</div>
+          <div class="hero-stat-label">故障修复时间缩短</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value" data-count="500" data-suffix="+">0</div>
+          <div class="hero-stat-label">支持终端规模</div>
+        </div>
+      </div>
+
+      <div class="hero-console-preview" aria-label="IntelliServe 运维工作流预览">
+        <div class="hero-console-header">
+          <span></span><span></span><span></span>
+          <strong>智能运维闭环</strong>
+        </div>
+        <div class="hero-console-body">
+          <div class="console-row active"><span>01</span><b>感知</b><em>终端、网络、资产、工单实时采集</em></div>
+          <div class="console-row"><span>02</span><b>诊断</b><em>LLM + RAG 匹配故障模式与处置策略</em></div>
+          <div class="console-row"><span>03</span><b>修复</b><em>低风险脚本自动执行，高风险进入审批</em></div>
+          <div class="console-row"><span>04</span><b>优化</b><em>沉淀知识库并回流效率报表</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOCS ============ -->
+  <section class="section" id="docs">
+    <div class="container">
+      <div class="section-header animate-in">
+        <span class="badge badge-blue section-badge">文档中心</span>
+        <h2>文档直接放在首页，按需进入阅读页</h2>
+        <p>常用文档入口集中在这里，点击具体文档会进入 doc-viewer 阅读完整 Markdown 内容。</p>
+      </div>
+
+      <div class="home-docs-grid">
+        <a href="doc-viewer.html?doc=doc/deployment/DOC-11-部署指南.md" class="home-doc-card animate-in">
+          <div class="home-doc-icon feature-icon-blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></div>
+          <h3>快速部署</h3>
+          <p>Docker Compose 一键部署、环境变量、初始化和常见部署检查。</p>
+        </a>
+        <a href="doc-viewer.html?doc=doc/architecture/DOC-01-系统架构规格书.md" class="home-doc-card animate-in">
+          <div class="home-doc-icon feature-icon-green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20"/><path d="M17 2v20"/><path d="M2 12h20"/></svg></div>
+          <h3>系统架构</h3>
+          <p>四层闭环架构、模块边界、数据流和关键架构决策。</p>
+        </a>
+        <a href="doc-viewer.html?doc=doc/api/DOC-05-REST-API规范.md" class="home-doc-card animate-in">
+          <div class="home-doc-icon feature-icon-purple"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg></div>
+          <h3>REST API</h3>
+          <p>认证方式、端点规范、请求响应结构和错误码说明。</p>
+        </a>
+        <a href="doc-viewer.html?doc=doc/architecture/DOC-04-安全架构文档.md" class="home-doc-card animate-in">
+          <div class="home-doc-icon feature-icon-yellow"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>安全架构</h3>
+          <p>JWT/RBAC、敏感字段加密、审计日志和脚本审批策略。</p>
+        </a>
+        <a href="doc-viewer.html?doc=doc/deployment/DOC-12-运维手册.md" class="home-doc-card animate-in">
+          <div class="home-doc-icon feature-icon-cyan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div>
+          <h3>运维手册</h3>
+          <p>服务管理、备份恢复、监控告警和故障排查流程。</p>
+        </a>
+        <a href="doc-viewer.html?doc=doc/user-guides/DOC-15-管理员指南.md" class="home-doc-card animate-in">
+          <div class="home-doc-icon feature-icon-blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <h3>管理员指南</h3>
+          <p>控制台、资产、用户、报表、知识库和系统设置操作说明。</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="section section-dark" id="features">
+    <div class="container">
+      <div class="section-header animate-in">
+        <span class="badge badge-blue section-badge">核心能力</span>
+        <h2>五大核心能力，覆盖运维全场景</h2>
+        <p>从 AI 对话式自助服务到自动化修复引擎，从资产全生命周期管理到运维效率量化分析</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card animate-in">
+          <div class="feature-icon feature-icon-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg></div>
+          <h3>AI 自助服务台</h3>
+          <p>企业微信/钉钉对话式 AI 助手，用户输入问题自动匹配解决方案，支持文本 + 截图识别，RAG 语义检索精准回答。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">企业微信</span>
+            <span class="feature-tag">钉钉</span>
+            <span class="feature-tag">RAG</span>
+            <span class="feature-tag">OCR</span>
+          </div>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon feature-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+          <h3>自动化修复引擎</h3>
+          <p>L1 常见故障自动执行修复脚本 — 网络重置、Office 修复、缓存清理、打印机修复等，无需人工介入，5 分钟内完成。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">PowerShell</span>
+            <span class="feature-tag">WinRM</span>
+            <span class="feature-tag">Celery</span>
+          </div>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon feature-icon-purple"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
+          <h3>资产全生命周期管理</h3>
+          <p>OCR 自动录入资产标签、健康度预测、闲置设备识别、自动盘点与合规审计，资产管理效率提升 10 倍。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">PaddleOCR</span>
+            <span class="feature-tag">健康预测</span>
+            <span class="feature-tag">自动盘点</span>
+          </div>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon feature-icon-yellow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <h3>网络运维增强</h3>
+          <p>实时网络拓扑可视化、异常流量预警、IP 配置自动化、设备配置备份，网络故障一目了然。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">SNMP</span>
+            <span class="feature-tag">拓扑发现</span>
+            <span class="feature-tag">Zabbix</span>
+          </div>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon feature-icon-cyan"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+          <h3>运维效率量化</h3>
+          <p>工单处理分析、故障分布统计、成本优化建议、知识库自动迭代，用数据驱动运维流程持续改进。</p>
+          <div class="feature-tags">
+            <span class="feature-tag">ECharts</span>
+            <span class="feature-tag">报表</span>
+            <span class="feature-tag">AI 分析</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPARISON ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header animate-in">
+        <span class="badge badge-green section-badge">预期效果</span>
+        <h2>传统运维 vs 智能运维</h2>
+        <p>AI 赋能后，关键运维指标全面提升</p>
+      </div>
+
+      <div class="animate-in">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>指标</th>
+              <th>传统运维</th>
+              <th>AI 智能运维</th>
+              <th>提升幅度</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metric-name">常见故障修复时长</td>
+              <td class="metric-old">30-60 分钟</td>
+              <td class="metric-new">5-10 分钟</td>
+              <td class="metric-improvement">↑ 80%</td>
+            </tr>
+            <tr>
+              <td class="metric-name">用户自助解决率</td>
+              <td class="metric-old">&lt; 10%</td>
+              <td class="metric-new">50%-70%</td>
+              <td class="metric-improvement">↑ 500%+</td>
+            </tr>
+            <tr>
+              <td class="metric-name">资产盘点效率</td>
+              <td class="metric-old">1-3 天/次</td>
+              <td class="metric-new">实时自动</td>
+              <td class="metric-improvement">∞</td>
+            </tr>
+            <tr>
+              <td class="metric-name">重复性工作占比</td>
+              <td class="metric-old">70%+</td>
+              <td class="metric-new">&lt; 30%</td>
+              <td class="metric-improvement">↓ 57%</td>
+            </tr>
+            <tr>
+              <td class="metric-name">设备故障提前预警</td>
+              <td class="metric-old">0%</td>
+              <td class="metric-new">40%-60%</td>
+              <td class="metric-improvement">从无到有</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARCHITECTURE ============ -->
+  <section class="section section-dark" id="architecture">
+    <div class="container">
+      <div class="section-header animate-in">
+        <span class="badge badge-purple section-badge">系统架构</span>
+        <h2>四层闭环架构</h2>
+        <p>感知 → 决策 → 执行 → 优化，形成自进化的运维智能闭环</p>
+      </div>
+
+      <div class="arch-layers animate-in">
+        <div class="arch-layer">
+          <div class="arch-layer-number" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">4</div>
+          <div class="arch-layer-content">
+            <h4>优化层 Optimization</h4>
+            <p>持续学习运维数据，迭代规则与模型，提升整体效率</p>
+            <div class="arch-layer-items">
+              <span class="arch-item">知识库自动迭代</span>
+              <span class="arch-item">ML 故障预测</span>
+              <span class="arch-item">效率分析</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-connector">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5-5 5 5"/><path d="M7 14l5 5 5-5"/></svg>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-number" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-green);">3</div>
+          <div class="arch-layer-content">
+            <h4>执行层 Execution</h4>
+            <p>将决策转化为实际操作 — 自动化脚本、自助工具、配置管理</p>
+            <div class="arch-layer-items">
+              <span class="arch-item">Celery Worker</span>
+              <span class="arch-item">WinRM / PowerShell</span>
+              <span class="arch-item">脚本库</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-connector">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5-5 5 5"/><path d="M7 14l5 5 5-5"/></svg>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-number" style="background: rgba(139, 92, 246, 0.15); color: var(--accent-purple);">2</div>
+          <div class="arch-layer-content">
+            <h4>智能决策层 Decision</h4>
+            <p>LLM 推理 + RAG 检索 + 故障诊断引擎，产出诊断结论与行动建议</p>
+            <div class="arch-layer-items">
+              <span class="arch-item">Qwen2.5-7B</span>
+              <span class="arch-item">Qdrant RAG</span>
+              <span class="arch-item">意图路由</span>
+              <span class="arch-item">风险预警</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-connector">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 10l5-5 5 5"/><path d="M7 14l5 5 5-5"/></svg>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-number" style="background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);">1</div>
+          <div class="arch-layer-content">
+            <h4>感知采集层 Perception</h4>
+            <p>全量采集 IT 环境中的所有运维数据 — 监控、资产、日志、工单</p>
+            <div class="arch-layer-items">
+              <span class="arch-item">Zabbix Agent 2</span>
+              <span class="arch-item">PostgreSQL</span>
+              <span class="arch-item">Filebeat</span>
+              <span class="arch-item">企微/钉钉 Webhook</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TECH STACK ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header animate-in">
+        <span class="badge badge-blue section-badge">技术选型</span>
+        <h2>全栈技术方案</h2>
+        <p>经过严格评估的 10 层技术栈，每一层都为 IT 运维场景量身选择</p>
+      </div>
+
+      <div class="tech-grid animate-in">
+        <div class="tech-card">
+          <div class="tech-card-icon" style="background: rgba(139, 92, 246, 0.15); color: var(--accent-purple);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2z"/></svg></div>
+          <div>
+            <h4>Ollama + Qwen2.5-7B</h4>
+            <p>本地 LLM 推理，中文能力最强</p>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon" style="background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <div>
+            <h4>FastAPI + Celery</h4>
+            <p>高性能异步 Python 后端</p>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5z"/></svg></div>
+          <div>
+            <h4>React 19 + Ant Design</h4>
+            <p>企业级前端 UI 框架</p>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-green);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+          <div>
+            <h4>PostgreSQL + TimescaleDB</h4>
+            <p>关系型 + 时序数据统一存储</p>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-yellow);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+          <div>
+            <h4>Qdrant 向量数据库</h4>
+            <p>高性能 RAG 语义检索</p>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-red);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <div>
+            <h4>Docker + Docker Compose</h4>
+            <p>一键容器化部署</p>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon" style="background: rgba(139, 92, 246, 0.15); color: var(--accent-purple);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+          <div>
+            <h4>PaddleOCR PP-OCRv4</h4>
+            <p>中文 OCR 95-98% 准确率</p>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon" style="background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div>
+            <h4>企微 + 钉钉集成</h4>
+            <p>IM 机器人无缝对接</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ROADMAP ============ -->
+  <section class="section section-dark" id="roadmap">
+    <div class="container">
+      <div class="section-header animate-in">
+        <span class="badge badge-green section-badge">实施路线</span>
+        <h2>分阶段落地，快速见效</h2>
+        <p>从基础搭建到持续优化，6 周内完成核心功能上线</p>
+      </div>
+
+      <div class="roadmap-timeline animate-in">
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-card">
+            <div class="roadmap-phase">Phase 1 · 第 1-2 周</div>
+            <h3>基础搭建</h3>
+            <p>Docker 全栈部署、资产管理系统、监控面板、企业微信 AI 聊天机器人上线，快速验证核心价值。</p>
+            <div class="roadmap-tags">
+              <span class="badge badge-blue">Docker</span>
+              <span class="badge badge-blue">资产系统</span>
+              <span class="badge badge-blue">监控面板</span>
+              <span class="badge badge-blue">企微机器人</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-card">
+            <div class="roadmap-phase">Phase 2 · 第 3-6 周</div>
+            <h3>核心落地</h3>
+            <p>自动化修复引擎、AI 智能诊断、工单系统、健康预测、网络拓扑、OCR 资产录入全面上线。</p>
+            <div class="roadmap-tags">
+              <span class="badge badge-purple">自动化引擎</span>
+              <span class="badge badge-purple">AI 诊断</span>
+              <span class="badge badge-purple">工单系统</span>
+              <span class="badge badge-purple">OCR</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot"></div>
+          <div class="roadmap-card">
+            <div class="roadmap-phase">Phase 3 · 持续迭代</div>
+            <h3>优化进化</h3>
+            <p>ML 故障预测模型、知识库自动迭代、高级 RAG 优化、K3s 高可用部署，持续提升智能化水平。</p>
+            <div class="roadmap-tags">
+              <span class="badge badge-green">ML 预测</span>
+              <span class="badge badge-green">知识库迭代</span>
+              <span class="badge badge-green">K3s HA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECURITY ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header animate-in">
+        <span class="badge badge-yellow section-badge">安全保障</span>
+        <h2>企业级安全，数据不出内网</h2>
+        <p>完全本地部署，端到端加密，多层次安全防护</p>
+      </div>
+
+      <div class="features-grid animate-in">
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <h3>TLS 1.3 传输加密</h3>
+          <p>全链路 HTTPS 加密传输，内部 CA 签发证书，Phase 3 升级 mTLS 双向认证。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>JWT + RBAC 访问控制</h3>
+          <p>三级角色权限体系 — admin / engineer / user，细粒度 API 级别权限管控。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-purple"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
+          <h3>AES-256-GCM 加密</h3>
+          <p>敏感字段列级加密存储，许可证密钥、API 密钥、SNMP 社区串等均加密保护。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-yellow"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div>
+          <h3>全量审计日志</h3>
+          <p>所有 API 调用记录至审计日志，包含用户、操作、资源、时间、IP、结果。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon feature-icon-cyan"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+          <h3>脚本执行分级审批</h3>
+          <p>低风险自动执行、中风险用户确认、高风险工程师审批，确保操作安全可控。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(239, 68, 68, 0.15); color: var(--accent-red);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+          <h3>完全本地部署</h3>
+          <p>所有 AI 推理、数据存储、业务逻辑均在本地完成，不依赖外部云 API，数据不出企业内网。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-section section-dark">
+    <div class="container animate-in">
+      <h2>准备好开始了吗？</h2>
+      <p>只需一条命令，即可在您的服务器上部署完整的 AI 运维平台</p>
+      <div class="cta-actions">
+        <a href="#docs" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          阅读部署文档
+        </a>
+        <a href="/system/login" class="btn btn-secondary">进入系统登录 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="navbar-brand">
+            <div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+            <span>IntelliServe</span>
+          </a>
+          <p>AI 驱动的 IT 运维智能平台，将传统桌面运维与 AI 技术深度融合，打造智能运维新范式。</p>
+        </div>
+        <div class="footer-column">
+          <h4>产品</h4>
+          <ul>
+            <li><a href="features.html">核心功能</a></li>
+            <li><a href="#architecture">系统架构</a></li>
+            <li><a href="/system/login">进入系统</a></li>
+            <li><a href="roadmap.html">路线图</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>文档</h4>
+          <ul>
+            <li><a href="#docs">快速入门</a></li>
+            <li><a href="#docs">架构设计</a></li>
+            <li><a href="#docs">API 规范</a></li>
+            <li><a href="#docs">部署指南</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4>社区</h4>
+          <ul>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">贡献指南</a></li>
+            <li><a href="#">Issue 反馈</a></li>
+            <li><a href="#">讨论区</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 IntelliServe IT Suite. All rights reserved.</span>
+        <span>Built for IT Ops Teams</span>
+      </div>
+    </div>
+  </footer>
+
+<script src="js/icons.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

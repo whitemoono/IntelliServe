@@ -1,0 +1,195 @@
+# =============================================================================
+# IntelliServe IT Suite - Docker Compose (Development)
+# =============================================================================
+
+x-common-env: &common-env
+  TZ: Asia/Shanghai
+  env_file: ../.env
+
+x-healthcheck-defaults: &hc-defaults
+  interval: 15s
+  timeout: 5s
+  retries: 3
+
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL + TimescaleDB
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: timescale/timescaledb:2.16-pg16
+    container_name: intelliserve-postgres
+    environment:
+      POSTGRES_USER: ${DB_USER:-intelliserve}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-CHANGE_ME}
+      POSTGRES_DB: ${DB_NAME:-intelliserve}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      <<: *hc-defaults
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-intelliserve}"]
+    networks:
+      - intelliserve-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # Redis (Cache + Celery Broker)
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: intelliserve-redis
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      <<: *hc-defaults
+      test: ["CMD", "redis-cli", "ping"]
+    networks:
+      - intelliserve-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # Qdrant (Vector Database)
+  # ---------------------------------------------------------------------------
+  qdrant:
+    image: qdrant/qdrant:v1.11
+    container_name: intelliserve-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      <<: *hc-defaults
+      test: ["CMD-SHELL", "curl -f http://localhost:6333/health"]
+    networks:
+      - intelliserve-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # MinIO (Object Storage)
+  # ---------------------------------------------------------------------------
+  minio:
+    image: minio/minio:latest
+    container_name: intelliserve-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-CHANGE_ME}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      <<: *hc-defaults
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/minio/health/live"]
+    networks:
+      - intelliserve-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # Ollama (Local LLM + Embedding Inference, optional)
+  # Development uses Alibaba Cloud DashScope by default.
+  # Enable with: docker compose --profile local-llm up -d ollama
+  # ---------------------------------------------------------------------------
+  ollama:
+    image: ollama/ollama:0.6.4-rocm
+    container_name: intelliserve-ollama
+    profiles:
+      - local-llm
+    environment:
+      - HSA_OVERRIDE_GFX_VERSION=10.3.0
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_NUM_PARALLEL=2
+      - OLLAMA_MAX_LOADED_MODELS=2
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      <<: *hc-defaults
+      interval: 30s
+      start_period: 60s
+      test: ["CMD-SHELL", "curl -f http://localhost:11434/api/tags"]
+    networks:
+      - intelliserve-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # FastAPI Backend (API Server)
+  # ---------------------------------------------------------------------------
+  fastapi-backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: intelliserve-api
+    env_file: ../.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      <<: *hc-defaults
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/api/v1/health"]
+    networks:
+      - intelliserve-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # Celery Worker (Async Tasks)
+  # ---------------------------------------------------------------------------
+  celery-worker:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: intelliserve-worker
+    command: celery -A worker.celery_app worker -l info -Q default,kb,embedding --concurrency=4
+    env_file: ../.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - intelliserve-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # Nginx (Reverse Proxy)
+  # ---------------------------------------------------------------------------
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: intelliserve-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - fastapi-backend
+    networks:
+      - intelliserve-net
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  qdrant_data:
+  minio_data:
+  ollama_data:
+
+networks:
+  intelliserve-net:
+    driver: bridge

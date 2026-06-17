@@ -1,0 +1,13 @@
+.git
+.agent
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/node_modules/
+frontend/dist/
+website/playwright-checks/
+website/screenshots-check/
+npm-debug.log*
+*.log

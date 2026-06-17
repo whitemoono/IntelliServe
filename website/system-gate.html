@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="0; url=/system/login">
+  <title>正在进入系统登录</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: Inter, "Noto Sans SC", sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    .wrap {
+      text-align: center;
+      padding: 32px;
+    }
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p>正在进入系统登录页...</p>
+    <p><a href="/system/login">如果没有自动跳转，点击这里进入</a></p>
+  </div>
+  <script>
+    window.location.replace('/system/login');
+  </script>
+</body>
+</html>

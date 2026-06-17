@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文档 — IntelliServe IT Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root {
+      /* Colors — Light Theme (Default) */
+      --bg: #f8fafc;
+      --bg2: #ffffff;
+      --bg3: #f1f5f9;
+      --bg-hover: rgba(0, 0, 0, 0.04);
+      --bg-active: rgba(37, 99, 235, 0.06);
+      
+      --text: #334155;
+      --text2: #475569;
+      --text3: #94a3b8;
+      --heading: #0f172a;
+      
+      --blue: #2563eb;
+      --cyan: #0891b2;
+      --green: #059669;
+      --yellow: #d97706;
+      --red: #dc2626;
+      --purple: #7c3aed;
+      
+      --border: #e2e8f0;
+      --border2: #cbd5e1;
+      
+      --bg-topbar: rgba(255, 255, 255, 0.85);
+      --bg-kbd: rgba(0, 0, 0, 0.05);
+      --bg-quote: rgba(37, 99, 235, 0.04);
+      --bg-code: rgba(15, 23, 42, 0.05);
+      
+      --shadow-color-rgba: rgba(15, 23, 42, 0.08);
+      
+      --font: 'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;
+      --mono: 'JetBrains Mono','Fira Code','Consolas',monospace;
+      --left-w: 280px;
+      --right-w: 220px;
+      --topbar: 56px;
+    }
+
+    :root[data-theme="dark"] {
+      /* Colors — Dark Tech Theme */
+      --bg: #0a0e1a;
+      --bg2: #111827;
+      --bg3: #1a1f2e;
+      --bg-hover: rgba(255, 255, 255, 0.04);
+      --bg-active: rgba(59, 130, 246, 0.08);
+      
+      --text: #e2e8f0;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --heading: #f1f5f9;
+      
+      --blue: #3b82f6;
+      --cyan: #06b6d4;
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --purple: #8b5cf6;
+      
+      --border: #1e293b;
+      --border2: #2d3748;
+      
+      --bg-topbar: rgba(10, 14, 26, 0.92);
+      --bg-kbd: rgba(255, 255, 255, 0.05);
+      --bg-quote: rgba(59, 130, 246, 0.04);
+      --bg-code: rgba(255, 255, 255, 0.06);
+      
+      --shadow-color-rgba: rgba(0, 0, 0, 0.4);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html{scroll-behavior:smooth;font-size:15px;}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;overflow:hidden;height:100vh;}
+    ::-webkit-scrollbar{width:5px;height:5px;}
+    ::-webkit-scrollbar-track{background:transparent;}
+    ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+    ::-webkit-scrollbar-thumb:hover{background:var(--text3);}
+    a{color:var(--blue);text-decoration:none;}
+
+    /* ===== TOPBAR ===== */
+    .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar);background:var(--bg-topbar);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;z-index:200;gap:16px;}
+    .topbar-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;color:var(--heading);text-decoration:none;flex-shrink:0;}
+    .topbar-logo .logo-i{width:30px;height:30px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:8px;display:flex;align-items:center;justify-content:center;}
+    .topbar-search{flex:1;max-width:420px;margin:0 auto;position:relative;}
+    .topbar-search input{width:100%;padding:8px 16px 8px 36px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;color:var(--text);font-size:.88rem;font-family:var(--font);outline:none;transition:all .2s;}
+    .topbar-search input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+    .topbar-search input::placeholder{color:var(--text3);}
+    .topbar-search .s-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);}
+    .topbar-search .s-kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:2px 6px;background:var(--bg-kbd);border:1px solid var(--border);border-radius:4px;font-size:.7rem;color:var(--text3);font-family:var(--mono);}
+    .topbar-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+    .topbar-actions a{color:var(--text2);font-size:.85rem;padding:6px 12px;border-radius:6px;transition:all .15s;}
+    .topbar-actions a:hover{color:var(--text);background:var(--bg-hover);}
+
+    /* ===== LAYOUT ===== */
+    .layout{display:flex;margin-top:var(--topbar);height:calc(100vh - var(--topbar));overflow:hidden;}
+
+    /* ===== LEFT SIDEBAR ===== */
+    .sidebar-left{width:var(--left-w);flex-shrink:0;background:var(--bg);border-right:1px solid var(--border);overflow-y:auto;padding:16px 0;position:relative;}
+    .sb-section{margin-bottom:4px;}
+    .sb-section-title{display:flex;align-items:center;gap:8px;padding:8px 20px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);cursor:pointer;user-select:none;}
+    .sb-section-title:hover{color:var(--text2);}
+    .sb-section-title .chevron{width:14px;height:14px;transition:transform .2s;}
+    .sb-section.collapsed .chevron{transform:rotate(-90deg);}
+    .sb-section.collapsed .sb-list{display:none;}
+    .sb-list{list-style:none;}
+    .sb-list a{display:flex;align-items:center;gap:10px;padding:7px 20px 7px 28px;color:var(--text2);font-size:.86rem;transition:all .2s cubic-bezier(0.34, 1.56, 0.64, 1);border-left:3px solid transparent;text-decoration:none;position:relative;}
+    .sb-list a:hover{color:var(--heading);background:var(--bg-hover);padding-left:32px;}
+    .sb-list a.active{color:var(--blue);border-left-color:var(--blue);background:var(--bg-active);font-weight:600;}
+    .sb-list .doc-size{margin-left:auto;font-size:.7rem;color:var(--text3);opacity:0;transition:opacity .15s;}
+    .sb-list a:hover .doc-size,.sb-list a.active .doc-size{opacity:1;}
+
+    /* ===== BREADCRUMBS & ACTIONS ===== */
+    .content-header-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text3);
+    }
+    .breadcrumbs a {
+      color: var(--text3);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .breadcrumbs a:hover {
+      color: var(--blue);
+    }
+    .breadcrumbs .separator {
+      color: var(--border);
+    }
+    .breadcrumbs .current-doc-name {
+      color: var(--text2);
+      font-weight: 500;
+    }
+    .action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.76rem;
+      color: var(--text2);
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .action-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+    .action-btn .btn-icon {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2.5;
+    }
+    
+    /* ===== STATUS BADGES ===== */
+    .badge-status {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .status-draft {
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text3);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    .status-review {
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--yellow);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    .status-done {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--green);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    /* ===== TOAST NOTIFICATION ===== */
+    .doc-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--blue);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 1000;
+    }
+    .doc-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ===== CENTER CONTENT ===== */
+    .content{flex:1;overflow-y:auto;padding:32px 48px 80px;min-width:0;}
+    .content-inner{max-width:760px;margin:0 auto;}
+    .content-meta{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+    .content-meta .badge{padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;}
+    .badge-blue{background:rgba(59,130,246,.12);color:var(--blue);border:1px solid rgba(59,130,246,.2);}
+    .badge-green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+    .badge-yellow{background:rgba(245,158,11,.12);color:var(--yellow);border:1px solid rgba(245,158,11,.2);}
+    .badge-purple{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.2);}
+    .badge-red{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2);}
+
+    /* ===== MARKDOWN STYLES ===== */
+    .md h1{font-size:1.85rem;font-weight:800;margin:0 0 20px;padding-bottom:14px;border-bottom:1px solid var(--border);color:var(--heading);line-height:1.3;}
+    .md h2{font-size:1.4rem;font-weight:700;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--heading);scroll-margin-top:24px;}
+    .md h3{font-size:1.15rem;font-weight:700;margin:28px 0 10px;color:var(--heading);scroll-margin-top:24px;}
+    .md h4{font-size:1rem;font-weight:600;margin:20px 0 8px;color:var(--heading);}
+    .md h5{font-size:.92rem;font-weight:600;margin:16px 0 6px;color:var(--heading);}
+    .md p{margin:0 0 14px;color:var(--text2);}
+    .md strong{color:var(--heading);font-weight:600;}
+    .md em{color:var(--text2);}
+    .md a{color:var(--blue);border-bottom:1px solid transparent;transition:border-color .15s;}
+    .md a:hover{border-bottom-color:var(--blue);}
+    .md ul,.md ol{margin:0 0 14px;padding-left:24px;color:var(--text2);}
+    .md li{margin-bottom:5px;}
+    .md li>ul,.md li>ol{margin-top:5px;margin-bottom:0;}
+    .md blockquote{margin:0 0 14px;padding:12px 20px;border-left:3px solid var(--blue);background:var(--bg-quote);border-radius:0 6px 6px 0;}
+    .md blockquote p{margin:0;}
+    .md code{font-family:var(--mono);font-size:.86em;padding:2px 6px;background:var(--bg-code);border:1px solid var(--border);border-radius:4px;color:var(--cyan);}
+    .md pre{margin:0 0 16px;position:relative;}
+    .md pre code{display:block;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:.84rem;line-height:1.65;overflow-x:auto;color:var(--text);}
+    .md pre .copy-btn{position:absolute;top:8px;right:8px;padding:4px 10px;background:var(--bg-hover);border:1px solid var(--border);border-radius:5px;color:var(--text3);font-size:.72rem;font-family:var(--font);cursor:pointer;transition:all .15s;opacity:0;}
+    .md pre:hover .copy-btn{opacity:1;}
+    .md pre .copy-btn:hover{background:var(--bg-hover-strong);color:var(--text);}
+    .md table{width:100%;border-collapse:separate;border-spacing:0;margin:0 0 16px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+    .md table th{padding:10px 14px;text-align:left;font-size:.78rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;background:var(--bg-hover);border-bottom:1px solid var(--border);}
+    .md table td{padding:10px 14px;font-size:.88rem;border-bottom:1px solid var(--border);color:var(--text2);}
+    .md table tr:last-child td{border-bottom:none;}
+    .md table tr:hover td{background:var(--bg-hover);}
+    .md hr{border:none;border-top:1px solid var(--border);margin:28px 0;}
+    .md img{max-width:100%;border-radius:8px;margin:12px 0;}
+    .md del{color:var(--text3);}
+
+    /* ===== RIGHT SIDEBAR (TOC) ===== */
+    .sidebar-right{width:var(--right-w);flex-shrink:0;overflow-y:auto;padding:24px 16px;border-left:1px solid var(--border);}
+    .toc-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:12px;padding:0 8px;}
+    .toc-list{list-style:none;}
+    .toc-list li{margin-bottom:1px;}
+    .toc-list a{display:block;padding:5px 8px 5px 12px;font-size:.82rem;color:var(--text3);border-left:2px solid transparent;transition:all .12s;text-decoration:none;border-radius:0 4px 4px 0;}
+    .toc-list a:hover{color:var(--text2);background:var(--bg-hover);}
+    .toc-list a.active{color:var(--blue);border-left-color:var(--blue);}
+    .toc-list .toc-h3{padding-left:24px;font-size:.78rem;}
+
+    /* ===== LOADING / EMPTY ===== */
+    .state-msg{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;color:var(--text3);text-align:center;}
+    .state-msg .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:16px;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .state-msg h3{color:var(--text2);font-size:1.1rem;margin-bottom:6px;}
+
+    /* ===== SEARCH RESULTS ===== */
+    .search-results{position:absolute;top:100%;left:0;right:0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin-top:6px;max-height:400px;overflow-y:auto;display:none;box-shadow:0 8px 32px var(--shadow-color-rgba);z-index:300;}
+    .search-results.show{display:block;}
+    .search-results .sr-item{display:block;padding:10px 16px;color:var(--text2);font-size:.86rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;text-decoration:none;}
+    .search-results .sr-item:hover,.search-results .sr-item.focused{background:rgba(59,130,246,.08);color:var(--text);}
+    .search-results .sr-item:last-child{border-bottom:none;}
+    .search-results .sr-item .sr-cat{font-size:.7rem;color:var(--text3);margin-left:8px;}
+    .search-results .sr-empty{padding:20px 16px;text-align:center;color:var(--text3);font-size:.85rem;}
+
+    /* ===== WELCOME PAGE ===== */
+    .welcome{text-align:center;padding:60px 20px;}
+    .welcome h2{font-size:1.6rem;font-weight:800;margin-bottom:12px;color:var(--heading);}
+    .welcome p{color:var(--text2);max-width:480px;margin:0 auto 32px;font-size:.95rem;}
+    .welcome-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:640px;margin:0 auto;text-align:left;}
+    .welcome-card{display:block;padding:16px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;transition:all .2s cubic-bezier(0.34, 1.56, 0.64, 1);text-decoration:none;color:inherit;cursor:pointer;}
+    .welcome-card:hover{border-color:rgba(37,99,235,.3);box-shadow:0 8px 16px var(--shadow-color-rgba);transform:translateY(-3px);}
+    .welcome-card h4{font-size:.9rem;color:var(--heading);margin-bottom:4px;}
+    .welcome-card p{font-size:.78rem;color:var(--text3);margin:0;}
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:1100px){.sidebar-right{display:none;}.content{padding:24px 28px 60px;}}
+    @media(max-width:768px){
+      .sidebar-left{position:fixed;top:var(--topbar);left:0;bottom:0;z-index:150;transform:translateX(-100%);transition:transform .25s;background:var(--bg);}
+      .sidebar-left.open{transform:translateX(0);}
+      .sidebar-overlay{display:none;position:fixed;top:var(--topbar);left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:140;}
+      .sidebar-overlay.show{display:block;}
+      .content{padding:20px 16px 60px;}
+      .mobile-menu-btn{display:flex!important;}
+      .welcome-cards{grid-template-columns:1fr;}
+    }
+    .mobile-menu-btn{display:none;background:none;border:none;color:var(--text);cursor:pointer;padding:6px;}
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="mobile-menu-btn" onclick="toggleMobileSidebar()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="index.html" class="topbar-logo">
+      <span class="logo-i"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+      IntelliServe
+    </a>
+    <div class="topbar-search" id="search-box">
+      <svg class="s-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="search-input" placeholder="搜索文档..." autocomplete="off">
+      <span class="s-kbd">Ctrl K</span>
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <div class="topbar-actions">
+      <a href="docs.html">文档中心</a>
+      <a href="/system/login">系统</a>
+      <a href="index.html">首页</a>
+    </div>
+  </header>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar-left" id="sidebar-left"></aside>
+
+    <!-- CENTER -->
+    <main class="content" id="content">
+      <div class="content-inner" id="content-inner">
+        <div class="welcome">
+          <h2>IntelliServe IT Suite 文档</h2>
+          <p>从左侧导航选择一篇文档开始阅读，或使用上方搜索框快速查找。</p>
+          <div class="welcome-cards">
+            <div class="welcome-card" onclick="loadDoc('doc/architecture/DOC-01-系统架构规格书.md')">
+              <h4>快速开始</h4>
+              <p>系统架构规格书</p>
+            </div>
+            <div class="welcome-card" onclick="loadDoc('doc/deployment/DOC-11-部署指南.md')">
+              <h4>部署指南</h4>
+              <p>Docker 一键部署</p>
+            </div>
+            <div class="welcome-card" onclick="loadDoc('doc/api/DOC-05-REST-API规范.md')">
+              <h4>API 参考</h4>
+              <p>REST API 端点</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar-right" id="sidebar-right">
+      <div class="toc-title">本页目录</div>
+      <ul class="toc-list" id="toc-list">
+        <!-- Generated by JS -->
+      </ul>
+    </aside>
+
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
+  <script src="js/docs-data.js"></script>
+  <script src="js/docs-nav.js"></script>
+  <script>
+    let currentDoc = null;
+
+    function getDocContent(path) {
+      if (!path) return null;
+      let md = DOCS_DATA[path];
+      if (!md) {
+        const normalized = path.replace(/\\/g, '/');
+        for (const key in DOCS_DATA) {
+          const kn = key.replace(/\\/g, '/');
+          if (kn.endsWith(normalized) || normalized.endsWith(kn.split('/doc/').pop() || '')) {
+            md = DOCS_DATA[key];
+            break;
+          }
+        }
+      }
+      return md || null;
+    }
+
+    function findRegistryItem(path) {
+      for (const sec of DOC_REGISTRY) {
+        for (const item of sec.items) {
+          if (item.path === path) {
+            return { section: sec.section, item };
+          }
+        }
+      }
+      return null;
+    }
+
+    function getStatusBadgeClass(status) {
+      if (!status) return 'status-draft';
+      if (status.includes('完稿') || status.includes('发布') || status.includes('通过')) return 'status-done';
+      if (status.includes('审核') || status.includes('评审')) return 'status-review';
+      return 'status-draft';
+    }
+
+    function copyDocLink(path) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('doc', path);
+      navigator.clipboard.writeText(url.toString()).then(() => {
+        showToast('链接已复制到剪贴板！');
+      }).catch(err => {
+        console.error('Failed to copy link: ', err);
+      });
+    }
+
+    function copyMarkdownContent() {
+      if (!currentDoc) return;
+      const md = getDocContent(currentDoc);
+      if (md) {
+        navigator.clipboard.writeText(md).then(() => {
+          showToast('Markdown 内容已复制！');
+        }).catch(err => {
+          console.error('Failed to copy content: ', err);
+        });
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'doc-toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 50);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+
+    // ===== BUILD SIDEBAR =====
+    function buildSidebar() {
+      const sb = document.getElementById('sidebar-left');
+      let html = '';
+      DOC_REGISTRY.forEach((sec, si) => {
+        html += `<div class="sb-section" data-section="${si}">
+          <div class="sb-section-title" onclick="toggleSection(this)">
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            ${sec.section}
+          </div>
+          <ul class="sb-list">`;
+        sec.items.forEach(item => {
+          const md = getDocContent(item.path);
+          const size = md ? Math.round(md.length / 1024) + ' KB' : '';
+          html += `<li><a href="#" data-path="${item.path}" onclick="event.preventDefault();loadDoc('${item.path}')">
+            <span>${item.title}</span>
+            <span class="doc-size">${size}</span>
+          </a></li>`;
+        });
+        html += '</ul></div>';
+      });
+      sb.innerHTML = html;
+    }
+
+    function toggleSection(el) {
+      el.parentElement.classList.toggle('collapsed');
+    }
+
+    // ===== LOAD DOCUMENT =====
+    function loadDoc(path) {
+      let md = getDocContent(path);
+      if (!md) {
+        document.getElementById('content-inner').innerHTML =
+          '<div class="state-msg"><h3>文档未找到</h3><p>' + path + '</p></div>';
+        return;
+      }
+
+      currentDoc = path;
+
+      // Update sidebar active
+      document.querySelectorAll('.sb-list a').forEach(a => a.classList.remove('active'));
+      document.querySelectorAll(`.sb-list a[data-path="${path}"]`).forEach(a => {
+        a.classList.add('active');
+        // Expand parent section
+        const sec = a.closest('.sb-section');
+        if (sec) sec.classList.remove('collapsed');
+      });
+
+      // Find registry item info
+      const registryInfo = findRegistryItem(path);
+      const category = registryInfo ? registryInfo.section : getCategory(path);
+      const title = registryInfo ? registryInfo.item.title : (path.split('/').pop().replace('.md', ''));
+      const status = registryInfo ? registryInfo.item.status : '初稿';
+
+      // Render markdown
+      const html = marked.parse(md);
+      
+      const headerHtml = `
+        <div class="content-header-area">
+          <div class="breadcrumbs">
+            <a href="docs.html">文档中心</a>
+            <span class="separator">/</span>
+            <span class="category-name">${category}</span>
+            <span class="separator">/</span>
+            <span class="current-doc-name">${title}</span>
+          </div>
+          <div class="action-buttons">
+            <a href="vscode://file/D:/dev/IntelliServe IT Suite/${path}" class="action-btn edit-btn" title="在 VS Code 中编辑">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <span>在本地编辑</span>
+            </a>
+            <button class="action-btn copy-link-btn" onclick="copyDocLink('${path}')" title="复制文档链接">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <span>复制链接</span>
+            </button>
+            <button class="action-btn copy-markdown-btn" onclick="copyMarkdownContent()" title="复制 Markdown 内容">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>复制 MD</span>
+            </button>
+          </div>
+        </div>
+        <div class="content-meta">
+          <span class="badge badge-${getBadge(path)}">${category}</span>
+          <span class="badge badge-status ${getStatusBadgeClass(status)}">${status}</span>
+          <span style="color:var(--text3);font-size:.82rem;margin-left:auto;">${Math.round(md.length / 1024)} KB</span>
+        </div>
+      `;
+
+      document.getElementById('content-inner').innerHTML = headerHtml + '<div class="md">' + html + '</div>';
+
+      // Add copy buttons to code blocks
+      addCopyButtons();
+
+      // Build TOC
+      buildTOC();
+
+      // Update URL
+      const params = new URLSearchParams();
+      params.set('doc', path);
+      history.replaceState(null, '', '?' + params.toString());
+
+      // Update title
+      const h1 = document.querySelector('.md h1');
+      if (h1) document.title = h1.textContent + ' — IntelliServe 文档';
+
+      // Scroll to top
+      document.getElementById('content').scrollTop = 0;
+
+      // Close mobile sidebar
+      document.getElementById('sidebar-left').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.remove('show');
+    }
+
+    function getBadge(path) {
+      if (path.includes('architecture/')) return 'blue';
+      if (path.includes('api/') || path.includes('data/')) return 'green';
+      if (path.includes('deployment/')) return 'yellow';
+      if (path.includes('user-guides/')) return 'purple';
+      if (path.includes('development/') || path.includes('testing/')) return 'red';
+      return 'blue';
+    }
+
+    function getCategory(path) {
+      if (path.includes('architecture/')) return '架构与设计';
+      if (path.includes('api/')) return 'API 规范';
+      if (path.includes('data/')) return '数据模型';
+      if (path.includes('deployment/')) return '部署与运维';
+      if (path.includes('user-guides/')) return '用户指南';
+      if (path.includes('development/')) return '开发文档';
+      if (path.includes('testing/')) return '测试文档';
+      return '文档';
+    }
+
+    // ===== BUILD TOC =====
+    function buildTOC() {
+      const headings = document.querySelectorAll('.md h2, .md h3');
+      const tocList = document.getElementById('toc-list');
+
+      if (!headings.length) {
+        tocList.innerHTML = '<li style="color:var(--text3);font-size:.82rem;padding:0 8px;">无目录</li>';
+        return;
+      }
+
+      let html = '';
+      headings.forEach((h, i) => {
+        const id = 'h-' + i;
+        h.id = id;
+        const cls = h.tagName === 'H3' ? ' toc-h3' : '';
+        const text = h.textContent.replace(/^[\d.]+\s*/, '');
+        html += `<li><a href="#${id}" class="toc-link${cls}" onclick="event.preventDefault();document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${text}</a></li>`;
+      });
+      tocList.innerHTML = html;
+
+      // Scroll spy
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+            const link = document.querySelector('.toc-link[href="#' + e.target.id + '"]');
+            if (link) link.classList.add('active');
+          }
+        });
+      }, {rootMargin: '-60px 0px -70% 0px'});
+      headings.forEach(h => observer.observe(h));
+    }
+
+    // ===== COPY BUTTONS =====
+    function addCopyButtons() {
+      document.querySelectorAll('.md pre').forEach(pre => {
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.textContent = '复制';
+        btn.onclick = () => {
+          const code = pre.querySelector('code');
+          navigator.clipboard.writeText(code.textContent).then(() => {
+            btn.textContent = '已复制';
+            setTimeout(() => btn.textContent = '复制', 1500);
+          });
+        };
+        pre.style.position = 'relative';
+        pre.appendChild(btn);
+      });
+    }
+
+    // ===== SEARCH =====
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    let searchFocusIdx = -1;
+    let fuse = null;
+
+    function initFuseSearch() {
+      if (typeof Fuse === 'undefined' || typeof DOC_REGISTRY === 'undefined') return;
+      const searchItems = [];
+      DOC_REGISTRY.forEach(sec => {
+        sec.items.forEach(item => {
+          const content = getDocContent(item.path) || '';
+          searchItems.push({
+            id: item.id,
+            title: item.title,
+            desc: item.desc,
+            path: item.path,
+            section: sec.section,
+            content: content
+          });
+        });
+      });
+
+      fuse = new Fuse(searchItems, {
+        keys: [
+          { name: 'id', weight: 0.3 },
+          { name: 'title', weight: 0.5 },
+          { name: 'desc', weight: 0.3 },
+          { name: 'content', weight: 0.1 }
+        ],
+        threshold: 0.4,
+        ignoreLocation: true,
+        includeMatches: true
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim();
+      if (!q) { searchResults.classList.remove('show'); return; }
+
+      if (!fuse) {
+        initFuseSearch();
+      }
+
+      if (!fuse) return;
+
+      const fuseResults = fuse.search(q);
+      const results = [];
+
+      fuseResults.forEach(r => {
+        const item = r.item;
+        let snippet = '';
+        if (item.content) {
+          const lines = item.content.split('\n');
+          for (const line of lines) {
+            if (line.toLowerCase().includes(q.toLowerCase()) && !line.startsWith('#')) {
+              snippet = line.replace(/[#*`\[\]]/g, '').trim().slice(0, 80);
+              break;
+            }
+          }
+        }
+        results.push({
+          path: item.path,
+          title: item.title,
+          cat: item.section,
+          snippet: snippet
+        });
+      });
+
+      if (!results.length) {
+        searchResults.innerHTML = '<div class="sr-empty">未找到匹配结果</div>';
+      } else {
+        const seen = new Set();
+        searchResults.innerHTML = results.filter(r => {
+          if (seen.has(r.path)) return false;
+          seen.add(r.path);
+          return true;
+        }).slice(0, 10).map((r, i) =>
+          `<div class="sr-item${i === 0 ? ' focused' : ''}" data-path="${r.path}" onclick="loadDoc('${r.path}');searchResults.classList.remove('show');searchInput.value='';">
+            <strong>${r.title}</strong><span class="sr-cat">${r.cat}</span>
+            ${r.snippet ? '<br><span style="font-size:.78rem;color:var(--text3)">' + r.snippet + '</span>' : ''}
+          </div>`
+        ).join('');
+      }
+      searchResults.classList.add('show');
+      searchFocusIdx = 0;
+    });
+
+    searchInput.addEventListener('keydown', e => {
+      const items = searchResults.querySelectorAll('.sr-item');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        searchFocusIdx = Math.min(searchFocusIdx + 1, items.length - 1);
+        items.forEach((it, i) => it.classList.toggle('focused', i === searchFocusIdx));
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        searchFocusIdx = Math.max(searchFocusIdx - 1, 0);
+        items.forEach((it, i) => it.classList.toggle('focused', i === searchFocusIdx));
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (items[searchFocusIdx]) items[searchFocusIdx].click();
+      } else if (e.key === 'Escape') {
+        searchResults.classList.remove('show');
+        searchInput.blur();
+      }
+    });
+
+    document.addEventListener('click', e => {
+      if (!document.getElementById('search-box').contains(e.target)) {
+        searchResults.classList.remove('show');
+      }
+    });
+
+    // Keyboard shortcut
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && document.activeElement !== searchInput)) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+
+    // ===== MOBILE SIDEBAR =====
+    function toggleMobileSidebar() {
+      document.getElementById('sidebar-left').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('show');
+    }
+
+    // ===== INIT =====
+    buildSidebar();
+
+    // Load doc from URL
+    const params = new URLSearchParams(window.location.search);
+    const initDoc = params.get('doc');
+    if (initDoc) {
+      loadDoc(initDoc);
+    }
+  </script>
+</body>
+</html>
