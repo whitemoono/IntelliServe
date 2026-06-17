@@ -3,7 +3,6 @@ import { message } from 'antd'
 type ModuleType =
   | 'ipam'
   | 'software-catalog'
-  | 'printers'
   | 'network'
   | 'ai-gateway'
   | 'sandbox'
@@ -86,8 +85,8 @@ const moduleContent: Record<ModuleType, ModuleContent> = {
     metrics: [
       { label: '标准软件', value: '42', detail: '必装 12，可选 21，受控 9', tone: 'blue' },
       { label: '安装包', value: '96', detail: '含驱动、工具和安全补丁', tone: 'green' },
+      { label: '驱动包', value: '64', detail: '打印机、显卡、网卡等驱动适配', tone: 'purple' },
       { label: '许可风险', value: '7', detail: '3 个超额，4 个闲置可回收', tone: 'yellow' },
-      { label: '禁用软件', value: '5', detail: '检测到 2 台终端命中', tone: 'red' },
     ],
     tableTitle: '标准软件目录',
     columns: [
@@ -103,42 +102,14 @@ const moduleContent: Record<ModuleType, ModuleContent> = {
       { name: 'Chrome Enterprise', version: '126', level: { text: '必装', tone: 'green' }, policy: '免费', silent: '/silent /install', distribution: '462 台' },
       { name: 'Adobe Acrobat Pro', version: '2025', level: { text: '受控', tone: 'yellow' }, policy: '按设备', silent: 'msiexec /qn', distribution: '64 台' },
       { name: '未知远控工具', version: '2.8', level: { text: '禁用', tone: 'red' }, policy: '不允许', silent: '-', distribution: '2 台' },
+      { name: 'HP Universal Print Driver', version: '7.2', level: { text: '必装', tone: 'green' }, policy: '公共驱动', silent: '/silent /install', distribution: '12 台' },
+      { name: 'Canon UFRII Driver', version: '30.9', level: { text: '必装', tone: 'green' }, policy: '公共驱动', silent: '/quiet /norestart', distribution: '8 台' },
+      { name: 'ZDesigner Driver', version: '8.6', level: { text: '必装', tone: 'green' }, policy: '公共驱动', silent: 'msiexec /qn', distribution: '3 台' },
     ],
     adviceTitle: 'AI 合规建议',
-    advice: 'Adobe Acrobat Pro 有 4 个授权 60 天未启动，建议优先从 PC-SALE-015、PC-MKT-007 回收许可；未知远控工具命中禁用规则，建议创建整改工单并人工复核。',
-    evidence: ['4 个席位连续 60 天未启动', '2 台终端命中禁用软件', '安装参数已入库', '可复用现有审批流'],
+    advice: 'Adobe Acrobat Pro 有 4 个授权 60 天未启动，建议优先从 PC-SALE-015、PC-MKT-007 回收许可；未知远控工具命中禁用规则，建议创建整改工单并人工复核。打印机驱动 FIN-PRN-01 使用旧版 HP UPD 6.x，建议推送 7.2 版本。',
+    evidence: ['4 个席位连续 60 天未启动', '2 台终端命中禁用软件', '安装参数已入库', '可复用现有审批流', '打印机驱动 1 个需更新'],
     workflow: ['录入软件', '匹配资产', '检测合规', '生成整改'],
-  },
-  printers: {
-    title: '打印机与驱动库',
-    subtitle: '集中管理打印机台账、驱动适配、队列堵塞和耗材预警。',
-    primaryAction: '驱动匹配',
-    secondaryAction: '清理队列',
-    metrics: [
-      { label: '打印机', value: '38', detail: '办公区、会议室、仓库标签机', tone: 'blue' },
-      { label: '驱动包', value: '64', detail: 'Windows/macOS 多版本适配', tone: 'green' },
-      { label: '故障队列', value: '4', detail: '队列堵塞 2，驱动不匹配 2', tone: 'yellow' },
-      { label: '耗材预警', value: '6', detail: '低墨粉或硒鼓寿命不足', tone: 'red' },
-    ],
-    tableTitle: '打印机台账',
-    columns: [
-      { key: 'name', label: '名称' },
-      { key: 'model', label: '型号' },
-      { key: 'ip', label: 'IP', mono: true },
-      { key: 'mac', label: 'MAC', mono: true },
-      { key: 'location', label: '位置' },
-      { key: 'status', label: '状态' },
-      { key: 'driver', label: '推荐驱动' },
-    ],
-    rows: [
-      { name: 'FIN-PRN-01', model: 'HP M428fdw', ip: '192.168.30.21', mac: 'F0:92:1C:44:10:21', location: '财务部', status: { text: '驱动异常', tone: 'red' }, driver: 'HP UPD 7.2' },
-      { name: 'HR-PRN-02', model: 'Canon iR 2625', ip: '192.168.30.32', mac: '80:CE:62:18:20:32', location: '人力资源', status: { text: '正常', tone: 'green' }, driver: 'Canon UFRII 30.9' },
-      { name: 'WH-LABEL-01', model: 'Zebra ZD421', ip: '192.168.30.66', mac: '00:07:4D:88:33:66', location: '仓库', status: { text: '队列堵塞', tone: 'yellow' }, driver: 'ZDesigner 8.6' },
-    ],
-    adviceTitle: 'AI 驱动修复建议',
-    advice: 'FIN-PRN-01 在 Windows 11 23H2 上使用旧版 HP UPD 6.x，建议推送 HP UPD 7.2，并重建 TCP/IP Port 后重启 Spooler。',
-    evidence: ['驱动版本落后 2 个主版本', '打印队列堆积 18 个任务', '端口可达但 Spooler 异常', '推荐脚本风险等级为低'],
-    workflow: ['识别型号', '匹配驱动', '审批推送', '验证队列'],
   },
   network: {
     title: '网络拓扑',

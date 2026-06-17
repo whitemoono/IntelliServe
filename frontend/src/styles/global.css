@@ -2177,8 +2177,9 @@ body {
   z-index: 170;
   opacity: 0;
   pointer-events: none;
-  background: rgba(15,23,42,.28);
-  backdrop-filter: blur(3px);
+  background: rgba(15,23,42,.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: opacity .25s ease;
 }
 
@@ -2422,8 +2423,9 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgba(15,23,42,.28);
-  backdrop-filter: blur(3px);
+  background: rgba(15,23,42,.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .asset-modal-content {
@@ -2637,8 +2639,9 @@ body {
 
 .asset-drawer-overlay {
   z-index: 1400;
-  background: rgba(15,23,42,.30);
-  backdrop-filter: blur(3px);
+  background: rgba(15,23,42,.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: opacity .3s ease;
 }
 
@@ -2689,8 +2692,9 @@ body {
 .asset-modal {
   z-index: 2000;
   opacity: 1;
-  background: rgba(15,23,42,.30);
-  backdrop-filter: blur(8px);
+  background: rgba(15,23,42,.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   animation: assetOverlayIn .22s ease both;
 }
 
@@ -3237,6 +3241,14 @@ body {
   background: var(--gradient-blue);
   box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 18px 40px rgba(59,130,246,.28);
   flex-shrink: 0;
+  line-height: 0;
+  font-size: 0;
+}
+
+.login-logo svg {
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 .login-brand-mark strong {

@@ -117,32 +117,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Architecture */}
-      <section id="架构" style={{ padding: '100px 48px', background: '#111827' }}>
-        <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 60 }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 700, color: '#f1f5f9', marginBottom: 12 }}>四层架构</h2>
-            <p style={{ color: '#94a3b8' }}>感知 → 决策 → 执行 → 优化</p>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
-              { name: '感知层', desc: 'Zabbix Agent 2 + PostgreSQL + 企微/钉钉 Webhook', color: '#3b82f6' },
-              { name: '决策层', desc: 'Qwen2.5-7B (Ollama) + RAG (Qdrant) + 故障诊断引擎', color: '#8b5cf6' },
-              { name: '执行层', desc: 'Celery + WinRM/PowerShell + 自动化脚本库', color: '#10b981' },
-              { name: '优化层', desc: '知识库自动迭代 + ML 预测 + 效率分析', color: '#f59e0b' },
-            ].map((layer, i) => (
-              <div key={layer.name} style={{ background: '#1a1f2e', border: '1px solid #1e293b', borderLeft: `3px solid ${layer.color}`, borderRadius: 12, padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 20 }}>
-                <div style={{ width: 48, height: 48, background: `${layer.color}15`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', fontWeight: 800, color: layer.color }}>{i + 1}</div>
-                <div>
-                  <div style={{ fontWeight: 600, color: '#f1f5f9', marginBottom: 4 }}>{layer.name}</div>
-                  <div style={{ fontSize: '.85rem', color: '#94a3b8', fontFamily: "'JetBrains Mono', monospace" }}>{layer.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Tech Stack */}
       <section id="技术栈" style={{ padding: '100px 48px' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>

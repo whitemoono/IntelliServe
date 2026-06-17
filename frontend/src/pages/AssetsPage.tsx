@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 type AssetStatus = 'online' | 'warning' | 'offline' | 'idle'
 type RiskLevel = 'high' | 'medium' | 'low'
+type AssetCategory = 'pc' | 'server' | 'printer' | 'network'
 type AssigneeFilter = 'all' | 'assigned' | 'unassigned' | 'pool'
 type SortField = 'id' | 'name' | 'assignee' | 'dept' | 'purchaseCost' | 'purchaseDate' | 'bookValue' | 'usage' | 'risk'
 type SortDir = 'asc' | 'desc'
@@ -12,6 +13,7 @@ type Asset = {
   id: string
   name: string
   model: string
+  category: AssetCategory
   assignee: string
   dept: string
   status: AssetStatus
@@ -49,6 +51,7 @@ type AssetForm = {
   id: string
   name: string
   model: string
+  category: AssetCategory
   dept: string
   assignee: string
   status: AssetStatus
@@ -74,6 +77,7 @@ const initialAssets: Asset[] = [
     id: 'A-2024-001',
     name: 'PC-FIN-001',
     model: 'ThinkPad T14s',
+    category: 'pc',
     assignee: '王会计',
     dept: '财务部',
     status: 'online',
@@ -110,6 +114,7 @@ const initialAssets: Asset[] = [
     id: 'A-2024-002',
     name: 'PC-HR-003',
     model: 'OptiPlex 7090',
+    category: 'pc',
     assignee: '赵 HR',
     dept: '人力资源',
     status: 'warning',
@@ -146,6 +151,7 @@ const initialAssets: Asset[] = [
     id: 'A-2024-003',
     name: 'PC-DEV-012',
     model: 'MacBook Pro 14',
+    category: 'pc',
     assignee: '李研发',
     dept: '研发部',
     status: 'online',
@@ -182,6 +188,7 @@ const initialAssets: Asset[] = [
     id: 'A-2024-004',
     name: 'PC-MKT-007',
     model: 'ThinkCentre M920',
+    category: 'pc',
     assignee: '未分配',
     dept: '市场部',
     status: 'offline',
@@ -218,6 +225,7 @@ const initialAssets: Asset[] = [
     id: 'A-2024-005',
     name: 'SRV-DB-001',
     model: 'PowerEdge R750',
+    category: 'server',
     assignee: '平台组',
     dept: 'IT 基础设施',
     status: 'online',
@@ -254,6 +262,7 @@ const initialAssets: Asset[] = [
     id: 'A-2024-006',
     name: 'PC-FIN-023',
     model: 'ThinkPad E15',
+    category: 'pc',
     assignee: '陈出纳',
     dept: '财务部',
     status: 'warning',
@@ -290,6 +299,7 @@ const initialAssets: Asset[] = [
     id: 'A-2024-007',
     name: 'PC-SALE-015',
     model: 'OptiPlex 5090',
+    category: 'pc',
     assignee: '待调拨',
     dept: '销售部',
     status: 'idle',
@@ -322,6 +332,117 @@ const initialAssets: Asset[] = [
     liveCpu: 0,
     liveRam: 4,
   },
+  {
+    id: 'A-2024-008',
+    name: 'FIN-PRN-01',
+    model: 'HP M428fdw',
+    category: 'printer',
+    assignee: '财务部共用',
+    dept: '财务部',
+    status: 'warning',
+    mac: 'F0:92:1C:44:10:21',
+    ip: '192.168.30.21',
+    purchaseCost: 3200,
+    purchaseDate: '2023-06-15',
+    bookValue: 1920,
+    usage: 85,
+    risk: 'medium',
+    heartbeat: '5分钟前',
+    health: 45,
+    serial: 'VNB3K49021',
+    vlan: 'VLAN 30 / 打印机',
+    cpu: '-',
+    ram: '512 MB',
+    disk: '-',
+    os: '固件 5.2.1',
+    location: '财务部 5F-打印区',
+    assignedAt: '2023-06-20',
+    lastUser: '-',
+    ownerMatch: '一致',
+    assignStatus: '部门共用',
+    salvageValue: 320,
+    depreciationPct: 40,
+    repairCost: 480,
+    lastTicket: 'TK-1024 驱动异常',
+    controlledSoftware: '-',
+    aiAdvice: 'FIN-PRN-01 使用旧版 HP UPD 6.x 驱动，与 Windows 11 23H2 不兼容。建议推送 HP UPD 7.2 并重建 TCP/IP Port 后重启 Spooler。',
+    liveCpu: 0,
+    liveRam: 0,
+  },
+  {
+    id: 'A-2024-009',
+    name: 'HR-PRN-02',
+    model: 'Canon iR 2625',
+    category: 'printer',
+    assignee: '人力资源共用',
+    dept: '人力资源',
+    status: 'online',
+    mac: '80:CE:62:18:20:32',
+    ip: '192.168.30.32',
+    purchaseCost: 18500,
+    purchaseDate: '2022-03-10',
+    bookValue: 11100,
+    usage: 72,
+    risk: 'low',
+    heartbeat: '刚刚',
+    health: 92,
+    serial: 'CN-IR2625-HR-02',
+    vlan: 'VLAN 30 / 打印机',
+    cpu: '-',
+    ram: '2 GB',
+    disk: '-',
+    os: '固件 4.12',
+    location: '人力资源 4F-公共打印区',
+    assignedAt: '2022-03-12',
+    lastUser: '-',
+    ownerMatch: '一致',
+    assignStatus: '部门共用',
+    salvageValue: 1850,
+    depreciationPct: 40,
+    repairCost: 0,
+    lastTicket: '无故障记录',
+    controlledSoftware: '-',
+    aiAdvice: 'Canon iR 2625 运行稳定，硒鼓剩余约 68%。建议持续观察，无需主动干预。',
+    liveCpu: 0,
+    liveRam: 0,
+  },
+  {
+    id: 'A-2024-010',
+    name: 'WH-LABEL-01',
+    model: 'Zebra ZD421',
+    category: 'printer',
+    assignee: '仓库共用',
+    dept: 'IT 基础设施',
+    status: 'warning',
+    mac: '00:07:4D:88:33:66',
+    ip: '192.168.30.66',
+    purchaseCost: 2800,
+    purchaseDate: '2024-01-20',
+    bookValue: 2100,
+    usage: 95,
+    risk: 'medium',
+    heartbeat: '2分钟前',
+    health: 58,
+    serial: 'ZD421-WH-01',
+    vlan: 'VLAN 30 / 打印机',
+    cpu: '-',
+    ram: '256 MB',
+    disk: '-',
+    os: '固件 8.6.2',
+    location: '仓库 1F-发货区',
+    assignedAt: '2024-01-22',
+    lastUser: '-',
+    ownerMatch: '一致',
+    assignStatus: '部门共用',
+    salvageValue: 280,
+    depreciationPct: 25,
+    repairCost: 0,
+    lastTicket: 'TK-1025 标签队列堵塞',
+    controlledSoftware: '-',
+    aiAdvice: 'WH-LABEL-01 标签打印队列堵塞，建议清理队列并检查 ZDesigner 8.6 驱动是否与当前固件匹配。',
+    liveCpu: 0,
+    liveRam: 0,
+  },
 ]
 
 const baseCounts = {
@@ -334,10 +455,18 @@ const baseCounts = {
 
 const formatCurrency = (value: number) => `¥${value.toLocaleString('zh-CN')}`
 
+const categoryMap: Record<AssetCategory, string> = {
+  pc: 'PC 终端',
+  server: '服务器',
+  printer: '打印机',
+  network: '网络设备',
+}
+
 const emptyForm: AssetForm = {
   id: 'A-2024-008',
   name: '',
   model: '',
+  category: 'pc',
   dept: '市场部',
   assignee: '',
   status: 'online',
@@ -352,6 +481,7 @@ function createAssetFromForm(form: AssetForm, index: number): Asset {
     id: form.id.trim() || `A-2024-${String(index).padStart(3, '0')}`,
     name: form.name.trim() || 'PC-GENERIC-99',
     model: form.model.trim() || 'Generic PC',
+    category: form.category,
     assignee,
     dept: form.dept,
     status: form.status,
@@ -393,6 +523,7 @@ export default function AssetsPage() {
   const [deptFilter, setDeptFilter] = useState('all')
   const [assigneeFilter, setAssigneeFilter] = useState<AssigneeFilter>('all')
   const [riskFilter, setRiskFilter] = useState<RiskLevel | 'all'>('all')
+  const [categoryFilter, setCategoryFilter] = useState<AssetCategory | 'all'>('all')
   const [sortField, setSortField] = useState<SortField>('id')
   const [sortDir, setSortDir] = useState<SortDir>('asc')
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null)
@@ -401,6 +532,22 @@ export default function AssetsPage() {
   const [addOpen, setAddOpen] = useState(false)
   const [form, setForm] = useState<AssetForm>(emptyForm)
   const [toast, setToast] = useState<{ message: string; tone: ToastTone } | null>(null)
+
+  const anyOverlayOpen = selectedAsset !== null || ocrOpen || addOpen
+
+  useEffect(() => {
+    if (!anyOverlayOpen) return
+    const scrollY = window.scrollY
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollY}px`
+    document.body.style.width = '100%'
+    return () => {
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      window.scrollTo(0, scrollY)
+    }
+  }, [anyOverlayOpen])
 
   const dynamicCounts = useMemo(() => {
     const extra = Math.max(0, assets.length - initialAssets.length)
@@ -443,7 +590,8 @@ export default function AssetsPage() {
         (!normalizedKeyword || text.includes(normalizedKeyword)) &&
         (deptFilter === 'all' || asset.dept === deptFilter) &&
         assigneeMatched &&
-        (riskFilter === 'all' || asset.risk === riskFilter)
+        (riskFilter === 'all' || asset.risk === riskFilter) &&
+        (categoryFilter === 'all' || asset.category === categoryFilter)
       )
     })
 
@@ -458,7 +606,7 @@ export default function AssetsPage() {
 
       return String(valueA).localeCompare(String(valueB), 'zh-CN') * direction
     })
-  }, [assets, assigneeFilter, deptFilter, keyword, riskFilter, sortDir, sortField, statusFilter])
+  }, [assets, assigneeFilter, categoryFilter, deptFilter, keyword, riskFilter, sortDir, sortField, statusFilter])
 
   const openOcrModal = () => {
     setOcrOpen(true)
@@ -477,6 +625,7 @@ export default function AssetsPage() {
           id: 'A-2024-009',
           name: 'PC-DEV-033',
           model: 'ThinkPad X1 Carbon Gen 10',
+          category: 'pc',
           dept: '研发部',
           assignee: '新员工待领用',
           status: 'online',
@@ -515,6 +664,7 @@ export default function AssetsPage() {
     setDeptFilter('all')
     setAssigneeFilter('all')
     setRiskFilter('all')
+    setCategoryFilter('all')
     setSortField('id')
     setSortDir('asc')
     showToast('资产筛选与排序已重置', 'info')
@@ -550,6 +700,7 @@ export default function AssetsPage() {
       ? `使用人：${assigneeFilter === 'assigned' ? '已分配' : assigneeFilter === 'unassigned' ? '未分配' : '待调拨 / 资产池'}`
       : '',
     riskFilter !== 'all' ? `闲置风险：${riskMap[riskFilter].label}` : '',
+    categoryFilter !== 'all' ? `类别：${categoryMap[categoryFilter]}` : '',
     keyword.trim() ? `关键词：${keyword.trim()}` : '',
   ].filter(Boolean)
 
@@ -658,6 +809,16 @@ export default function AssetsPage() {
           </select>
         </label>
         <label className="asset-control">
+          <span>设备类别</span>
+          <select value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value as AssetCategory | 'all')}>
+            <option value="all">全部类别</option>
+            <option value="pc">PC 终端</option>
+            <option value="server">服务器</option>
+            <option value="printer">打印机</option>
+            <option value="network">网络设备</option>
+          </select>
+        </label>
+        <label className="asset-control">
           <span>排序字段</span>
           <select value={sortField} onChange={(event) => setSortField(event.target.value as SortField)}>
             <option value="id">资产编号</option>
@@ -713,6 +874,7 @@ export default function AssetsPage() {
                 <SortableTh field="id" activeField={sortField} dir={sortDir} onSort={sortByHeader}>资产编号</SortableTh>
                 <SortableTh field="name" activeField={sortField} dir={sortDir} onSort={sortByHeader}>设备名称</SortableTh>
                 <th>型号</th>
+                <th>类别</th>
                 <SortableTh field="assignee" activeField={sortField} dir={sortDir} onSort={sortByHeader}>使用人</SortableTh>
                 <SortableTh field="dept" activeField={sortField} dir={sortDir} onSort={sortByHeader}>部门</SortableTh>
                 <th>状态</th>
@@ -734,6 +896,7 @@ export default function AssetsPage() {
                   <td className="mono-cell">{asset.id}</td>
                   <td><strong>{asset.name}</strong></td>
                   <td>{asset.model}</td>
+                  <td><span className={`badge badge-${asset.category === 'printer' ? 'yellow' : asset.category === 'server' ? 'purple' : asset.category === 'network' ? 'blue' : 'green'}`}>{categoryMap[asset.category]}</span></td>
                   <td className={asset.assignee === '未分配' || asset.assignee === '待调拨' ? 'asset-muted' : ''}>{asset.assignee}</td>
                   <td>{asset.dept}</td>
                   <td><span className={`status-dot ${asset.status}`}>{statusMap[asset.status].label}</span></td>
@@ -858,7 +1021,7 @@ function AssetDrawer({
           <>
             <div className="asset-drawer-header">
               <div>
-                <span>资产详情</span>
+                <span>资产详情 <span className={`badge badge-${asset.category === 'printer' ? 'yellow' : asset.category === 'server' ? 'purple' : asset.category === 'network' ? 'blue' : 'green'}`}>{categoryMap[asset.category]}</span></span>
                 <h3>{asset.id} - {asset.name}</h3>
               </div>
               <button className="asset-close-btn" type="button" onClick={onClose} aria-label="关闭资产详情">×</button>
@@ -1086,6 +1249,15 @@ function AddAssetModal({
         <label>
           <span>产品型号 *</span>
           <input value={form.model} onChange={(event) => onChange({ ...form, model: event.target.value })} placeholder="ThinkPad L14" />
+        </label>
+        <label>
+          <span>设备类别</span>
+          <select value={form.category} onChange={(event) => onChange({ ...form, category: event.target.value as AssetCategory })}>
+            <option value="pc">PC 终端</option>
+            <option value="server">服务器</option>
+            <option value="printer">打印机</option>
+            <option value="network">网络设备</option>
+          </select>
         </label>
         <label>
           <span>使用部门 *</span>

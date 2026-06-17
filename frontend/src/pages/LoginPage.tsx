@@ -53,6 +53,11 @@ export default function LoginPage() {
 
       <section className="login-shell">
         <div className="login-brand-panel" aria-label="IntelliServe 平台概览">
+          <a href="/" className="login-back-home" style={{display:'inline-flex',alignItems:'center',gap:6,fontSize:'.82rem',color:'var(--text-muted)',textDecoration:'none',marginBottom:8,transition:'color .15s'}}
+             onMouseEnter={e=>{(e.target as HTMLElement).style.color='var(--accent-blue)'}} onMouseLeave={e=>{(e.target as HTMLElement).style.color='var(--text-muted)'}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            返回首页
+          </a>
           <div className="login-brand-mark">
             <span className="login-logo">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

@@ -7,7 +7,6 @@ type NavKey =
   | 'assets'
   | 'ipam'
   | 'software-catalog'
-  | 'printers'
   | 'tickets'
   | 'monitoring'
   | 'network'
@@ -33,7 +32,6 @@ const navItems: { section: string; items: { key: NavKey; label: string; badge?: 
       { key: 'assets', label: '资产管理', icon: 'assets' },
       { key: 'ipam', label: 'IPAM 地址管理', icon: 'ipam' },
       { key: 'software-catalog', label: '软件库', icon: 'software' },
-      { key: 'printers', label: '打印机与驱动', icon: 'printers' },
       { key: 'tickets', label: '工单管理', icon: 'tickets', badge: 12 },
       { key: 'monitoring', label: '监控中心', icon: 'monitoring' },
       { key: 'network', label: '网络拓扑', icon: 'network' },
@@ -66,7 +64,6 @@ const iconMap: Record<string, ReactNode> = {
   assets: <AssetIcon />,
   ipam: <IpamIcon />,
   software: <SoftwareIcon />,
-  printers: <PrinterIcon />,
   tickets: <TicketIcon />,
   monitoring: <MonitoringIcon />,
   network: <NetworkIcon />,
@@ -87,7 +84,6 @@ const pageLabels: Record<string, string> = {
   assets: '资产管理',
   ipam: 'IPAM 地址管理',
   'software-catalog': '软件库',
-  printers: '打印机与驱动',
   tickets: '工单管理',
   monitoring: '监控中心',
   network: '网络拓扑',

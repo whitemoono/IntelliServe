@@ -44,7 +44,6 @@ export default function App() {
         <Route path="assets" element={<AssetsPage />} />
         <Route path="ipam" element={<PrototypeModulePage type="ipam" />} />
         <Route path="software-catalog" element={<PrototypeModulePage type="software-catalog" />} />
-        <Route path="printers" element={<PrototypeModulePage type="printers" />} />
         <Route path="tickets" element={<TicketsPage />} />
         <Route path="monitoring" element={<MonitoringPage />} />
         <Route path="network" element={<PrototypeModulePage type="network" />} />

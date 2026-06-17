@@ -1483,6 +1483,8 @@ knowledge_base ||--o{ kb_revisions
 
 ### C.5 打印机与驱动库
 
+> **整合说明**：打印机设备已通过 `assets.category = 'printer'` 纳入资产管理模块统一管理。打印机运行状态（队列、耗材）由监控中心展示，驱动包作为软件条目纳入软件库。`printers` 表仍保留用于打印机特有属性（队列状态、推荐驱动等），通过 `asset_id` 关联到 `assets` 表。
+
 `printers`：
 
 | 字段 | 类型 | 说明 |

@@ -25,50 +25,33 @@ export default function DashboardPage() {
     const chart = echarts.init(chartRef.current)
     chart.setOption({
       backgroundColor: 'transparent',
-      grid: { top: 20, right: 20, bottom: 30, left: 50 },
-      tooltip: { trigger: 'axis' },
-      xAxis: {
-        type: 'category',
-        data: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
-        axisLine: { lineStyle: { color: '#e2e8f0' } },
-        axisLabel: { color: '#64748b' },
+      tooltip: { trigger: 'item', formatter: '{b}: {c} 台 ({d}%)' },
+      legend: {
+        orient: 'vertical',
+        right: 16,
+        top: 'center',
+        itemWidth: 10,
+        itemHeight: 10,
+        textStyle: { color: '#64748b', fontSize: 13 },
       },
-      yAxis: {
-        type: 'value',
-        axisLine: { show: false },
-        splitLine: { lineStyle: { color: '#e2e8f0' } },
-        axisLabel: { color: '#64748b' },
-      },
-      series: [
-        {
-          name: 'CPU',
-          type: 'line',
-          smooth: true,
-          data: [25, 18, 42, 68, 55, 45, 32],
-          lineStyle: { color: '#3b82f6', width: 2 },
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: 'rgba(59,130,246,0.3)' },
-              { offset: 1, color: 'rgba(59,130,246,0)' },
-            ]),
-          },
-          itemStyle: { color: '#3b82f6' },
+      series: [{
+        type: 'pie',
+        radius: ['50%', '75%'],
+        center: ['35%', '50%'],
+        avoidLabelOverlap: false,
+        label: { show: false },
+        emphasis: {
+          label: { show: true, fontSize: 14, fontWeight: 600, color: '#1e293b' },
+          scaleSize: 6,
         },
-        {
-          name: '内存',
-          type: 'line',
-          smooth: true,
-          data: [55, 52, 61, 72, 68, 62, 58],
-          lineStyle: { color: '#06b6d4', width: 2 },
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: 'rgba(6,182,212,0.3)' },
-              { offset: 1, color: 'rgba(6,182,212,0)' },
-            ]),
-          },
-          itemStyle: { color: '#06b6d4' },
-        },
-      ],
+        data: [
+          { value: 210, name: '台式机', itemStyle: { color: '#3b82f6' } },
+          { value: 145, name: '笔记本', itemStyle: { color: '#8b5cf6' } },
+          { value: 56, name: '服务器', itemStyle: { color: '#06b6d4' } },
+          { value: 42, name: '打印机', itemStyle: { color: '#f59e0b' } },
+          { value: 33, name: '网络设备', itemStyle: { color: '#10b981' } },
+        ],
+      }],
     })
     const onResize = () => chart.resize()
     window.addEventListener('resize', onResize)
@@ -113,12 +96,7 @@ export default function DashboardPage() {
       <div className="dashboard-grid">
         <div className="chart-container">
           <div className="chart-header">
-            <h3>CPU / 内存使用趋势</h3>
-            <div className="chart-actions">
-              <button className="chart-tab active">24h</button>
-              <button className="chart-tab">7天</button>
-              <button className="chart-tab">30天</button>
-            </div>
+            <h3>资产类型分布</h3>
           </div>
           <div ref={chartRef} style={{ height: 280 }} />
         </div>
