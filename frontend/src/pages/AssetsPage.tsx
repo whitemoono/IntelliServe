@@ -412,6 +412,18 @@ export default function AssetsPage() {
     }
   }, [assets])
 
+  const assetFinancials = useMemo(() => {
+    return assets.reduce(
+      (summary, asset) => ({
+        purchaseCost: summary.purchaseCost + asset.purchaseCost,
+        bookValue: summary.bookValue + asset.bookValue,
+        idleSaving: summary.idleSaving + (asset.status === 'idle' || asset.risk === 'high' ? asset.bookValue : 0),
+        highRisk: summary.highRisk + (asset.risk === 'high' ? 1 : 0),
+      }),
+      { purchaseCost: 0, bookValue: 0, idleSaving: 0, highRisk: 0 },
+    )
+  }, [assets])
+
   const filteredAssets = useMemo(() => {
     const normalizedKeyword = keyword.trim().toLowerCase()
 
@@ -530,13 +542,22 @@ export default function AssetsPage() {
     { key: 'idle', label: '闲置', count: dynamicCounts.idle },
   ]
 
+  const activeFilterTags = [
+    statusFilter !== 'all' ? `状态：${statusMap[statusFilter].label}` : '',
+    deptFilter !== 'all' ? `部门：${deptFilter}` : '',
+    assigneeFilter !== 'all'
+      ? `使用人：${assigneeFilter === 'assigned' ? '已分配' : assigneeFilter === 'unassigned' ? '未分配' : '待调拨 / 资产池'}`
+      : '',
+    riskFilter !== 'all' ? `闲置风险：${riskMap[riskFilter].label}` : '',
+    keyword.trim() ? `关键词：${keyword.trim()}` : '',
+  ].filter(Boolean)
+
   return (
     <div className="assets-page">
-      <div className="assets-page-head">
+      <div className="assets-page-head assets-page-head-compact">
         <div>
-          <span className="assets-kicker">Asset Operations</span>
           <h2>资产管理</h2>
-          <p>统一管理终端、服务器、网络与软件归属，辅助盘点、调拨、换新预算和闲置回收。</p>
+          <p>资产台账、归属、成本、闲置风险与 Agent 心跳状态统一管理。</p>
         </div>
         <div className="assets-head-actions">
           <button className="btn btn-secondary btn-sm" type="button" onClick={openOcrModal}>
@@ -545,6 +566,36 @@ export default function AssetsPage() {
           <button className="btn btn-primary btn-sm" type="button" onClick={() => setAddOpen(true)}>
             <PlusIcon /> 添加资产
           </button>
+        </div>
+      </div>
+
+      <div className="asset-command-strip">
+        <div className="asset-command-card">
+          <span className="asset-command-icon asset-command-blue"><MonitorIcon /></span>
+          <div>
+            <small>资产库同步</small>
+            <strong>{dynamicCounts.all} 台</strong>
+            <p>Agent、采购台账、OCR 录入统一归集</p>
+            <div className="asset-mini-progress"><span style={{ width: '92%' }} /></div>
+          </div>
+        </div>
+        <div className="asset-command-card">
+          <span className="asset-command-icon asset-command-yellow"><AlertIcon /></span>
+          <div>
+            <small>待确认动作</small>
+            <strong>{assetFinancials.highRisk + dynamicCounts.idle} 项</strong>
+            <p>调拨、盘点、预算、授权回收保持人工确认</p>
+            <div className="asset-command-tags"><span>盘点</span><span>调拨</span><span>预算</span></div>
+          </div>
+        </div>
+        <div className="asset-command-card asset-command-ai">
+          <span className="asset-command-icon asset-command-green">AI</span>
+          <div>
+            <small>AI 盘活建议</small>
+            <strong>{formatCurrency(assetFinancials.idleSaving)}</strong>
+            <p>优先处理 PC-SALE-015 闲置调拨与 Adobe 授权释放</p>
+            <button className="btn btn-ghost btn-sm" type="button" onClick={() => showToast('已生成闲置资产盘活草稿，等待管理员确认。', 'success')}>生成草稿</button>
+          </div>
         </div>
       </div>
 
@@ -629,45 +680,89 @@ export default function AssetsPage() {
         <button className="btn btn-secondary btn-sm asset-reset-btn" type="button" onClick={resetFilters}>重置</button>
       </div>
 
+      <div className="asset-filter-summary">
+        <div>
+          <span>筛选命中</span>
+          <strong>{filteredAssets.length} 条</strong>
+          <em>当前资产库 {dynamicCounts.all} 台，列表展示原型核心样本</em>
+        </div>
+        <div className="asset-filter-tags">
+          {(activeFilterTags.length ? activeFilterTags : ['全部资产']).map((tag) => (
+            <span className="asset-pill" key={tag}>{tag}</span>
+          ))}
+        </div>
+        <div className="asset-filter-meta">
+          <span>原值 {formatCurrency(assetFinancials.purchaseCost)}</span>
+          <span>净值 {formatCurrency(assetFinancials.bookValue)}</span>
+        </div>
+      </div>
+
       <div className="data-table-container asset-table-container">
-        <table className="data-table asset-table">
-          <thead>
-            <tr>
-              <SortableTh field="id" activeField={sortField} dir={sortDir} onSort={sortByHeader}>资产编号</SortableTh>
-              <SortableTh field="name" activeField={sortField} dir={sortDir} onSort={sortByHeader}>设备名称</SortableTh>
-              <th>型号</th>
-              <SortableTh field="assignee" activeField={sortField} dir={sortDir} onSort={sortByHeader}>使用人</SortableTh>
-              <SortableTh field="dept" activeField={sortField} dir={sortDir} onSort={sortByHeader}>部门</SortableTh>
-              <th>状态</th>
-              <th>MAC</th>
-              <th>IP</th>
-              <SortableTh field="purchaseCost" activeField={sortField} dir={sortDir} onSort={sortByHeader}>购入金额</SortableTh>
-              <SortableTh field="purchaseDate" activeField={sortField} dir={sortDir} onSort={sortByHeader}>购入日期</SortableTh>
-              <SortableTh field="bookValue" activeField={sortField} dir={sortDir} onSort={sortByHeader}>账面净值</SortableTh>
-              <SortableTh field="usage" activeField={sortField} dir={sortDir} onSort={sortByHeader}>使用率</SortableTh>
-              <SortableTh field="risk" activeField={sortField} dir={sortDir} onSort={sortByHeader}>闲置风险</SortableTh>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredAssets.map((asset) => (
-              <tr key={asset.id} onClick={() => setSelectedAsset(asset)} className="asset-row">
-                <td className="mono-cell">{asset.id}</td>
-                <td><strong>{asset.name}</strong></td>
-                <td>{asset.model}</td>
-                <td className={asset.assignee === '未分配' || asset.assignee === '待调拨' ? 'asset-muted' : ''}>{asset.assignee}</td>
-                <td>{asset.dept}</td>
-                <td><span className={`status-dot ${asset.status}`}>{statusMap[asset.status].label}</span></td>
-                <td className="mono-cell">{asset.mac}</td>
-                <td className="mono-cell">{asset.ip}</td>
-                <td>{formatCurrency(asset.purchaseCost)}</td>
-                <td>{asset.purchaseDate}</td>
-                <td>{formatCurrency(asset.bookValue)}</td>
-                <td>{asset.usage}%</td>
-                <td><span className={riskMap[asset.risk].className}>{riskMap[asset.risk].label}</span></td>
+        <div className="asset-table-head">
+          <div>
+            <h3>资产库明细</h3>
+            <p>终端、服务器、库存池设备的归属、网络、成本与闲置风险。</p>
+          </div>
+          <span className="badge badge-blue">可视化台账</span>
+        </div>
+        <div className="asset-table-scroll">
+          <table className="data-table asset-table">
+            <thead>
+              <tr>
+                <SortableTh field="id" activeField={sortField} dir={sortDir} onSort={sortByHeader}>资产编号</SortableTh>
+                <SortableTh field="name" activeField={sortField} dir={sortDir} onSort={sortByHeader}>设备名称</SortableTh>
+                <th>型号</th>
+                <SortableTh field="assignee" activeField={sortField} dir={sortDir} onSort={sortByHeader}>使用人</SortableTh>
+                <SortableTh field="dept" activeField={sortField} dir={sortDir} onSort={sortByHeader}>部门</SortableTh>
+                <th>状态</th>
+                <th>心跳</th>
+                <th>健康度</th>
+                <th>MAC</th>
+                <th>IP</th>
+                <SortableTh field="purchaseCost" activeField={sortField} dir={sortDir} onSort={sortByHeader}>购入金额</SortableTh>
+                <SortableTh field="purchaseDate" activeField={sortField} dir={sortDir} onSort={sortByHeader}>购入日期</SortableTh>
+                <SortableTh field="bookValue" activeField={sortField} dir={sortDir} onSort={sortByHeader}>账面净值</SortableTh>
+                <SortableTh field="usage" activeField={sortField} dir={sortDir} onSort={sortByHeader}>使用率</SortableTh>
+                <SortableTh field="risk" activeField={sortField} dir={sortDir} onSort={sortByHeader}>闲置风险</SortableTh>
+                <th>操作</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredAssets.map((asset) => (
+                <tr key={asset.id} onClick={() => setSelectedAsset(asset)} className="asset-row">
+                  <td className="mono-cell">{asset.id}</td>
+                  <td><strong>{asset.name}</strong></td>
+                  <td>{asset.model}</td>
+                  <td className={asset.assignee === '未分配' || asset.assignee === '待调拨' ? 'asset-muted' : ''}>{asset.assignee}</td>
+                  <td>{asset.dept}</td>
+                  <td><span className={`status-dot ${asset.status}`}>{statusMap[asset.status].label}</span></td>
+                  <td>{asset.heartbeat}</td>
+                  <td><span className={`asset-health-chip health-${statusMap[asset.status].tone}`}>{asset.health}</span></td>
+                  <td className="mono-cell">{asset.mac}</td>
+                  <td className="mono-cell">{asset.ip}</td>
+                  <td>{formatCurrency(asset.purchaseCost)}</td>
+                  <td>{asset.purchaseDate}</td>
+                  <td>{formatCurrency(asset.bookValue)}</td>
+                  <td>{asset.usage}%</td>
+                  <td><span className={riskMap[asset.risk].className}>{riskMap[asset.risk].label}</span></td>
+                  <td>
+                    <button
+                      className="btn btn-ghost btn-sm asset-table-action"
+                      type="button"
+                      onMouseDown={(event) => event.stopPropagation()}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        setSelectedAsset(asset)
+                      }}
+                    >
+                      查看详情
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         {filteredAssets.length === 0 && (
           <div className="asset-empty">当前筛选条件下暂无资产，请调整筛选项。</div>
         )}
@@ -768,9 +863,9 @@ function AssetDrawer({
             <div className="asset-drawer-header">
               <div>
                 <span>资产详情</span>
-                <h3>{asset.name}</h3>
+                <h3>{asset.id} - {asset.name}</h3>
               </div>
-              <button className="btn btn-ghost btn-sm" type="button" onClick={onClose}>关闭</button>
+              <button className="asset-close-btn" type="button" onClick={onClose} aria-label="关闭资产详情">×</button>
             </div>
             <div className="asset-drawer-body">
               <div className="asset-health-card">
@@ -828,6 +923,10 @@ function AssetDrawer({
               <div className="drawer-block ai-advice-box">
                 <h4>AI 盘活与预算建议</h4>
                 <p>{asset.aiAdvice}</p>
+                <div className="asset-action-preview">
+                  <span>待确认动作</span>
+                  <strong>{asset.risk === 'high' ? '盘点 / 调拨 / 释放授权' : asset.status === 'warning' ? '维修成本复核 / 换新预算' : '持续观察'}</strong>
+                </div>
                 <div className="asset-drawer-actions">
                   <button
                     className="btn btn-primary btn-sm"
@@ -857,6 +956,8 @@ function AssetDrawer({
                 <div className="asset-action-grid">
                   <button className="btn btn-secondary btn-sm" type="button" onClick={() => onAction('调试脚本已进入演示队列，真实执行需管理员确认。', 'warning')}>执行调试脚本</button>
                   <button className="btn btn-secondary btn-sm" type="button" onClick={() => onAction('远程屏幕控制为高风险动作，本阶段仅演示入口。', 'danger')}>远程屏幕控制</button>
+                  <button className="btn btn-secondary btn-sm" type="button" onClick={() => onAction('资产调拨单已生成草稿，等待资产管理员确认。', 'success')}>生成调拨草稿</button>
+                  <button className="btn btn-secondary btn-sm" type="button" onClick={() => onAction('软件授权回收仅生成待办，不会自动卸载。', 'warning')}>授权回收待办</button>
                 </div>
               </DrawerBlock>
             </div>
@@ -1040,7 +1141,7 @@ function ModalShell({
       <div className="asset-modal-content">
         <div className="asset-modal-header">
           <h3>{title}</h3>
-          <button className="btn btn-ghost btn-sm" type="button" onClick={onClose}>关闭</button>
+          <button className="asset-close-btn" type="button" onClick={onClose} aria-label="关闭弹窗">×</button>
         </div>
         <div className="asset-modal-body">{children}</div>
       </div>
@@ -1079,6 +1180,16 @@ function MonitorIcon() {
       <rect x="2" y="3" width="20" height="14" rx="2" />
       <line x1="8" y1="21" x2="16" y2="21" />
       <line x1="12" y1="17" x2="12" y2="21" />
+    </svg>
+  )
+}
+
+function AlertIcon() {
+  return (
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10.3 3.8 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
     </svg>
   )
 }

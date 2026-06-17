@@ -142,7 +142,7 @@ export default function MainLayout() {
                   className={`sys-nav-item ${currentPath === item.key ? 'active' : ''}`}
                   onClick={() => navigate(`/system/${item.key}`)}
                 >
-                  <span className="icon">{iconMap[item.icon]}</span>
+                  <span className="nav-icon icon">{iconMap[item.icon]}</span>
                   <span>{item.label}</span>
                   {item.badge && <span className="nav-badge">{item.badge}</span>}
                 </button>
@@ -197,7 +197,9 @@ export default function MainLayout() {
         </header>
 
         <div className="sys-content">
-          <Outlet />
+          <div className="sys-page-view" key={currentPath}>
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>
